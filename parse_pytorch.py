@@ -4,7 +4,6 @@ def parse_pytorch_summary(summary_str):
     layer_info = []
     capture = False
     for line in summary_str.split("\n"):
-        print("starting lin",line)
         if "Layer (type)" in line:
             capture = True
             continue
@@ -12,13 +11,11 @@ def parse_pytorch_summary(summary_str):
             capture = False
 #        print("spl",line.split(" "))
         out_shape = re.findall(r'\[.*?\]', line)
-        print("out",out_shape)
         if out_shape!=None and out_shape!=[]:
             params = int(line.split(" ")[-1].replace(",",""))
             out_shape= out_shape[0][1:-1]
             out_size = 1
             for i in out_shape.split(","):
-                print(i)
                 out_size*= abs(int(i))
             layer_info.append(( out_size, params))
 
@@ -47,5 +44,5 @@ Estimated Total Size (MB): 0.06
 """
 
 # Parse the summary
-parsed_summary = parse_pytorch_summary(pytorch_summary_str)
-print(parsed_summary)
+#parsed_summary = parse_pytorch_summary(pytorch_summary_str)
+#print(parsed_summary)
