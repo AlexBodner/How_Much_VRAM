@@ -1,0 +1,27 @@
+.headerTitle {
+    font-weight: bold;
+    color: var(--white-font);
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;    
+    margin-left: 5%;
+    height: 50px;
+}
+
+@media (max-height: 400px) {
+    .header {
+        display: none;
+    }
+}
+
+.headerEnd {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 5%;
+    color: var(--white-font);
+}

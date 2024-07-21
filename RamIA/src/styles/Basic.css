@@ -1,0 +1,35 @@
+.basicContainer {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    width: 100%;
+}
+
+.preset {
+    grid-column: 2/3;
+}
+
+.form {
+    grid-column: 4/8;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.rowForm {
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.inputForm {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background-color: transparent;
+    min-width: 40%;
+}
+
+.buttonForm {
+}
