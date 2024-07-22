@@ -2,7 +2,7 @@
 //import { parsePytorchSummary } from './parsers';
 
 function bitsToGB(b) {
-    return b / (8 * 1024 ** 3);
+    return b / (8 * 1024 **3);
 }
 
 function calculateMemoryParameters(parameterCount) {
@@ -27,7 +27,9 @@ export default function calculateTotalMemory(parameterCount, batchSize, inputSha
     let activationsMem = 0;
     let gradientPrecision = gradientPrecisionString.substring(5, gradientPrecisionString.length);
     let weightPrecision = weightPrecisionString.substring(5, weightPrecisionString.length);
+
     if (summary !== undefined && library !== undefined) {
+        console.log("entra a parser");
         if (library === "pytorch") {
             let p = 0;
             let outsParams = parsePytorchSummary(summary);
@@ -43,12 +45,19 @@ export default function calculateTotalMemory(parameterCount, batchSize, inputSha
             // Handle JAX case
         }
     }
-    activationsMem *= batchSize * gradientPrecision / (8 * 1024 ** 3);
-
-    let inputBits = calculateInputUsage(inputShape, batchSize);
+    activationsMem *= batchSize * gradientPrecision;
+    activationsMem = bitsToGB(activationsMem)
+    let input_mem = bitsToGB(calculateInputUsage(inputShape, batchSize))*weightPrecision;
     let optimizerMem = dict_mapper[optimizer](parameterCount);
-    let gradientsMem = training ? (parameterCount + optimizerMem) * gradientPrecision / (8 * 1024 ** 3) : 0;
-    let totalGB = bitsToGB((parameterCount + inputBits) * weightPrecision) + gradientsMem + activationsMem;
+
+    var parameters_mem = bitsToGB(parameterCount)*weightPrecision;
+    
+    var gradientsMem = training ?  (bitsToGB(parameterCount) + bitsToGB( optimizerMem)) * gradientPrecision : 0;
+
+    let totalGB = parameters_mem +input_mem+ gradientsMem + activationsMem;
+    console.log("total",totalGB);
+    console.log(gradientsMem);
+
     return totalGB + 0.2 * totalGB;
 }
 

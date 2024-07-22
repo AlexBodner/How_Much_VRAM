@@ -11,7 +11,6 @@ def adagrad_usage(gradients_mem):
 def adadelta_usage(gradients_mem):
     return gradients_mem
 
-
 def rmsprop_usage(gradients_mem):
     return gradients_mem
 

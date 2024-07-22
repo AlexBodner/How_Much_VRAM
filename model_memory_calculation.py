@@ -33,17 +33,19 @@ def calculate_total_memory(parameter_count, batch_size,input_shape,weight_precis
                 pass
             elif library=="jax":
                 pass
-        activations_mem*= batch_size*gradient_precision/(8*1024**3) 
+        activations_mem*= batch_size*gradient_precision
         # Calculate input usage in bits
         input_bits = calculate_input_usage(input_shape,batch_size)
         
         #Calculate gradients and optimizer memory
         optimizer_mem = optimizers_mem_usage.dict_mapper.get(optimizer,lambda x:0)(parameter_count)
-        gradients_mem =( parameter_count+optimizer_mem) *int(training) *gradient_precision/(8*1024**3) 
-        
+        gradients_mem =( parameter_count+optimizer_mem) *int(training) *gradient_precision
+        print("opt",optimizer_mem)
+
+        print("gradients",gradients_mem)
 
         
-        total_gb = bits_to_GB((parameter_count+input_bits)*weight_precision)  +gradients_mem +activations_mem
+        total_gb = bits_to_GB((parameter_count+input_bits)*weight_precision +gradients_mem +activations_mem) 
         return  total_gb+ 0.2*total_gb
 
 if __name__=="__main__":
@@ -135,7 +137,8 @@ Estimated Total Size (MB): 134.35
     # Big MLP
     #print(calculate_total_memory(None, 64,input_shape=(1,28,28),weight_precision=32,gradient_precision= 32 ,training=True,optimizer = "adam",summary=summary_bigger_mlp,library="pytorch"))
 
-    
+    print(calculate_total_memory(97916510, 64,input_shape=(1,28,28),weight_precision=32,gradient_precision= 32 ,training=True,optimizer = "adam",summary=None,library=None))
+
     #Super MLP
     #print(calculate_total_memory(None, 64,input_shape=(1,28,28),weight_precision=32,gradient_precision= 32 ,training=True,optimizer = "adam",summary=summary_super_mlp,library="pytorch"))
     
