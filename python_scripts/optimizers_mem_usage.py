@@ -3,8 +3,7 @@ def adam_mem_usage(gradients_mem):
 def sgd_mem_usage(gradients_mem):
     return 0
 def momentum_usage(gradients_mem):
-    return gradients_mem #osea que duplica el uso
-
+    return gradients_mem #duplicates mem usage
 def adagrad_usage(gradients_mem):
     return gradients_mem
 
