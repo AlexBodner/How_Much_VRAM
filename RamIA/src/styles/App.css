@@ -59,12 +59,6 @@ body {
     z-index: 1;
 }
 
-@media screen and (max-height: 600px) {
-    .titleContainer {
-        visibility: hidden;
-    }
-}
-
 @media screen and (max-width: 1000px) {
     .titleContainer {
         visibility: hidden;
@@ -140,7 +134,6 @@ body {
         top: 0%;
         left: 0%;
     }
-
     100% {
         position: absolute;
         left: 50%;
@@ -167,6 +160,10 @@ body {
 
 
 @media screen and (max-height: 600px) {
+    .titleContainer {
+        visibility: hidden;
+    }
+    
     .move-diagonal-right {
         top: 10% !important;
     }

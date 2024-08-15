@@ -1,35 +1,51 @@
 .basicContainer {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: 1fr 2fr 1fr;
     width: 100%;
 }
 
 .preset {
-    grid-column: 2/3;
+    grid-column: 1/2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .form {
-    grid-column: 4/8;
+    grid-column: 2/3;
     background-color: #D9D9D9;
+    padding: 10px;
     border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(4,auto);
+    height: 20rem;
 }
 
 .rowForm {
-    margin: 10px;
     display: flex;
-    flex-direction: row;
-    gap: 50px;
+    align-items: center;
+    width: 100%;
 }
 
-.inputForm {
-    padding: 10px;
+.rowForm:last-child {
+    justify-content: end;
+}
+
+input {
+    width: 100%;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    border: 1px solid #000000;
-    background-color: transparent;
-    min-width: 40%;
+    padding: 0.5rem 1rem;
 }
 
-.buttonForm {
+@media(max-width: 576px) {
+    .form {
+        grid-template-columns: 1fr;
+    }
+
+    .preset {
+        display: none;
+    }
 }
