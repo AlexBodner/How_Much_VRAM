@@ -55,8 +55,6 @@ export default function calculateTotalMemory(parameterCount, batchSize, inputSha
     var gradientsMem = training ?  (bitsToGB(parameterCount) + bitsToGB( optimizerMem)) * gradientPrecision : 0;
 
     let totalGB = parameters_mem +input_mem+ gradientsMem + activationsMem;
-    console.log("total",totalGB);
-    console.log(gradientsMem);
 
     return totalGB + 0.2 * totalGB;
 }

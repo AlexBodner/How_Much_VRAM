@@ -42,7 +42,3 @@ Params size (MB): 0.01
 Estimated Total Size (MB): 0.06
 ----------------------------------------------------------------
 """
-
-# Parse the summary
-#parsed_summary = parse_pytorch_summary(pytorch_summary_str)
-#print(parsed_summary)

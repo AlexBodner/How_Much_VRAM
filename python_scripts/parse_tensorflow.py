@@ -50,7 +50,8 @@ Trainable params: 56320 (220.00 KB)
 Non-trainable params: 0 (0.00 Byte)
 ____________________________________________
 """
+if __name__=="__main":
 
-# Parse the example summary
-layer_info = parse_tensorflow_summary(tensorflow_summary)
-print(layer_info)
+    # Parse the example summary
+    layer_info = parse_tensorflow_summary(tensorflow_summary)
+    print(layer_info)

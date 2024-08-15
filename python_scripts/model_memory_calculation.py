@@ -16,9 +16,9 @@ def calculate_input_usage(input_shape,batch_size):
         aux = 1
         for i in input_shape:
             aux*=i
-        return aux*batch_size#* (precision/8)/(1024*1024)
+        return aux*batch_size
     elif type(input_shape)==int:     
-        return input_shape*batch_size#* (precision/8)/(1024*1024)
+        return input_shape*batch_size
 def calculate_total_memory(parameter_count, batch_size,input_shape,weight_precision,gradient_precision,training=True,optimizer = "adam",summary=None,library=None):
         activations_mem = 0
         if not summary is None and not library is None:
@@ -33,6 +33,7 @@ def calculate_total_memory(parameter_count, batch_size,input_shape,weight_precis
                 pass
             elif library=="jax":
                 pass
+
         activations_mem*= batch_size*gradient_precision
         # Calculate input usage in bits
         input_bits = calculate_input_usage(input_shape,batch_size)
@@ -40,14 +41,11 @@ def calculate_total_memory(parameter_count, batch_size,input_shape,weight_precis
         #Calculate gradients and optimizer memory
         optimizer_mem = optimizers_mem_usage.dict_mapper.get(optimizer,lambda x:0)(parameter_count)
         gradients_mem =( parameter_count+optimizer_mem) *int(training) *gradient_precision
-        print("opt",optimizer_mem)
 
-        print("gradients",gradients_mem)
-
-        
         total_gb = bits_to_GB((parameter_count+input_bits)*weight_precision +gradients_mem +activations_mem) 
         return  total_gb+ 0.2*total_gb
 
+# Tests
 if __name__=="__main__":
     summary_bigger_mlp = """----------------------------------------------------------------
         Layer (type)               Output Shape         Param #
@@ -147,11 +145,10 @@ Estimated Total Size (MB): 134.35
     #print(calculate_total_memory(1.41e9, 1,input_shape=65536,weight_precision=16,gradient_precision= 32 ,training=True,optimizer = "adam",summary=None,library="pytorch")) # Expected: 68GB
     
     
-    print(memory_llm(v= 50257,s=65536,h= 2048,hff=5440,a=1,batch_size=1,transformer_layers=24))
-
-    
-    print(memory_llm2(seq_length =65536 , batch_size=  1, hidden_dims=2048,heads=1,precision=32,layers= 24,parameters=1.41e9))
-    #print(memory_llm2(seq_length =2048  , batch_size=  1, hidden_dims=4096 ,heads=32 ,precision=32,layers= 32 ,parameters=7e9))
+    llm_calc_mem(num_gpus=1, tensor_parallel_size=1, pipeline_parallel_size=1, partition_activations=False, zero_stage=1, zero_allgather_bucket_size=5e8,
+                zero3_max_live_params=1e9, checkpoint_activations=False, batch_size_per_gpu=1, sequence_length=2*4096, vocab_size=50257, hidden_size=2048,
+                num_attention_heads=1, num_layers=24, ffn_size=5440/2048, infer=False, kv_size_ratio=1.0, is_mixed_precision=True, high_prec_bytes_per_val=4,
+                low_prec_bytes_per_val=2, bytes_per_grad_ele=4, num_experts=0, expert_parallelism=1, misc_mem_gib=0)
 
     #print(calculate_vram_usage(vocab_size=50257, hidden_size= 2048, sequence_length=65536, num_layers = 24, batch_size=1, precision_bits=32))
     #GPT 5B
@@ -160,6 +157,5 @@ Estimated Total Size (MB): 134.35
     #print(memory_llm(v= 50257,s=65536/2,h= 4096,hff=10880,a=1,batch_size=1,transformer_layers=24))
 
     
-#def calculate_memory_from_torch(summary,precision)
 
 
