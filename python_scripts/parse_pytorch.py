@@ -12,7 +12,11 @@ def parse_pytorch_summary(summary_str):
 #        print("spl",line.split(" "))
         out_shape = re.findall(r'\[.*?\]', line)
         if out_shape!=None and out_shape!=[]:
-            params = int(line.split(" ")[-1].replace(",",""))
+            params = line.split(" ")[-1].replace(",","") 
+            if params.isnumeric():
+                params = int(params)
+            else:
+                params= 0 
             out_shape= out_shape[0][1:-1]
             out_size = 1
             for i in out_shape.split(","):
