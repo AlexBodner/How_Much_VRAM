@@ -1,0 +1,36 @@
+.calculate-button {
+    background-color: #54FFAD;
+    color: #292931;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+  
+  .calculate-button:hover {
+    background-color: #3CCF8E;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .button-text {
+    margin-right: 10px;
+  }
+  
+  .button-icon {
+    font-size: 24px;
+  }
+  
+  @media (max-width: 768px) {
+    .calculate-button {
+      font-size: 16px;
+      padding: 10px 20px;
+    }
+  }
