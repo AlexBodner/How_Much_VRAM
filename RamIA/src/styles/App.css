@@ -27,6 +27,11 @@
     min-height: 100vh;
   }
   
+  .main-content {
+    flex-grow: 1;
+    padding-top: 60px; /* Adjust this value based on your header height */
+  }
+  
   .contentSection {
     width: 100%;
     max-width: 800px;
