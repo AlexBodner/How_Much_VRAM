@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/Form.css';
+import '../styles/ModelSummary.css';
 import Select from 'react-select';
 import { useForm, Controller } from 'react-hook-form';
 import calculateTotalMemory from '../scripts/modelMemoryCalculation';
@@ -27,12 +27,21 @@ const customStyles = {
   }),
 };
 
-export default function Form() {
-  const { register, handleSubmit, control, watch } = useForm();
+const libraryOptions = [
+  { value: 'pytorch', label: 'PyTorch' },
+  { value: 'tensorflow', label: 'TensorFlow' },
+  { value: 'keras', label: 'Keras' },
+  { value: 'jax', label: 'JAX' },
+];
+
+export default function ModelSummary() {
+  const { register, handleSubmit, control } = useForm();
   const [vramResult, setVramResult] = useState(null);
 
   const onSubmit = (data) => {
-    if (data.paramCount && data.batchSize && data.inputSize && data.weightsPrecision && data.gradientsPrecision && data.optimizer) {
+    console.log(data);
+
+    if (data.summary && data.library && data.inputSize && data.batchSize && data.weightsPrecision && data.gradientsPrecision && data.optimizer) {
       const result = calculateTotalMemory(
         data.paramCount,
         data.batchSize,
@@ -41,8 +50,8 @@ export default function Form() {
         data.gradientsPrecision.value,
         data.training,
         data.optimizer.value,
-        data.summary, // Add this if you include summary in the form
-        data.library   // Add this if you include library in the form
+        data.summary,
+        data.library.value
       );
       setVramResult(result);
     } else {
@@ -51,30 +60,41 @@ export default function Form() {
   };
 
   return (
-    <form className="formContainer" onSubmit={handleSubmit(onSubmit)}>
+    <form className="modelSummaryForm" onSubmit={handleSubmit(onSubmit)}>
       <div className="formRow">
         <div className="formField">
-          <label>Parameter count</label>
-          <input type="text" {...register('paramCount')} />
+          <label>Model Summary</label>
+          <textarea type="text" {...register('summary')} rows="10" cols="50" />
         </div>
         <div className="formField">
-          <label>Input size</label>
+          <label>Library</label>
+          <Controller
+            name="library"
+            control={control}
+            defaultValue={{ value: 'pytorch', label: 'Pytorch' }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={libraryOptions}
+                styles={customStyles}
+              />
+            )}
+          />
+        </div>
+      </div>
+      <div className="formRow">
+        <div className="formField">
+          <label>Input Shape</label>
           <input type="text" {...register('inputSize')} />
         </div>
-      </div>
-      <div className="formRow">
         <div className="formField">
-          <label>Batch size</label>
+          <label>Batch Size</label>
           <input type="text" {...register('batchSize')} />
         </div>
-        <div className="formField checkboxField">
-          <label>Training</label>
-          <input type="checkbox" {...register('training')} />
-        </div>
       </div>
       <div className="formRow">
         <div className="formField">
-          <label>Weights precision</label>
+          <label>Weights Precision</label>
           <Controller
             name="weightsPrecision"
             control={control}
@@ -135,20 +155,19 @@ export default function Form() {
             )}
           />
         </div>
+        <div className="formField checkboxField">
+          <label>Training</label>
+          <input type="checkbox" {...register('training')} />
+        </div>
       </div>
-
-      {/* Calculate VRAM Button */}
       <div className="formRow">
         <button type="button" className="calculateButton" onClick={handleSubmit(onSubmit)}>
           Calculate VRAM
         </button>
       </div>
-
-      {/* Display the VRAM Calculation Result */}
       {vramResult && (
-        <div className="vram-result">
-          <h3>Calculated VRAM:</h3>
-          <p>{vramResult} GB</p>
+        <div className="resultField">
+          <p>Estimated VRAM: {vramResult} GB</p>
         </div>
       )}
     </form>

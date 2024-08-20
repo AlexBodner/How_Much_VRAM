@@ -1,0 +1,101 @@
+
+
+.formRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;  /* Increased margin */
+}
+
+.formField {
+    flex: 1;
+    margin-right: 20px;  /* Increased margin */
+}
+
+.formField:last-child {
+    margin-right: 0;
+}
+
+.formField label {
+    display: block;
+    color: white;  /* Changed to white */
+    margin-bottom: 8px;  /* Increased margin */
+    font-size: 16px;  /* Increased font size */
+    font-weight: bold;  /* Made label bold */
+}
+
+.formField input[type="number"],
+.formField input[type="text"] {
+    width: 100%;
+    padding: 10px;  /* Increased padding */
+    background-color: transparent;
+    border: 1px solid #666666;
+    border-radius: 5px;
+    color: #9DE5FF;
+    font-size: 14px;  /* Increased font size */
+}
+
+.checkboxField {
+    display: flex;
+    align-items: center;
+}
+
+.checkboxField label {
+    margin-right: 15px;  /* Increased margin */
+}
+
+.checkboxField input[type="checkbox"] {
+    width: 24px;  /* Increased size */
+    height: 24px;  /* Increased size */
+    background-color: transparent;
+    border: 2px solid #666666;  /* Increased border width */
+    border-radius: 4px;
+}
+
+/* Styling for react-select */
+.css-1s2u09g-control {
+    background-color: transparent !important;
+    border-color: #666666 !important;
+    min-height: 40px !important;  /* Increased height */
+}
+
+.css-1pahdxg-control {
+    background-color: transparent !important;
+    border-color: #9DE5FF !important;
+    box-shadow: none !important;
+    min-height: 40px !important;  /* Increased height */
+}
+
+.css-26l3qy-menu {
+    background-color: #4A4A4A !important;
+}
+
+.css-1n7v3ny-option {
+    background-color: #666666 !important;
+}
+
+.css-9gakcf-option {
+    background-color: #4A4A4A !important;
+}
+
+.css-1rhbuit-multiValue {
+    background-color: #666666 !important;
+}
+
+.css-12jo7m5 {
+    color: #9DE5FF !important;
+}
+
+/* Additional styles for select components */
+.css-1wa3eu0-placeholder,
+.css-1uccc91-singleValue {
+    color: #9DE5FF !important;  /* Keeping option text color */
+}
+
+.css-b8ldur-Input {
+    color: #9DE5FF !important;
+}
+
+/* Increase spacing between options in dropdown */
+.css-yt9ioa-option {
+    padding: 12px 8px !important;
+}

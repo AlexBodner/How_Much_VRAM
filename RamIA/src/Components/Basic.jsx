@@ -5,7 +5,7 @@ import '../styles/Basic.css'
 export default function Basic() {
     return (
         <section className="basicContainer">
-            <Preset/>
+            {/*<Preset/>*/}
             <Form/>
         </section>
     )

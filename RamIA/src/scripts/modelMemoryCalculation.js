@@ -1,5 +1,7 @@
 //import { dict_mapper } from './optimizersMemUsage';
-//import { parsePytorchSummary } from './parsers';
+import { act } from 'react';
+import { parsePytorchSummary } from './parsers';
+//const parsePytorchSummary = ( import('./parsers.js')).default;
 
 function bitsToGB(b) {
     return b / (8 * 1024 **3);
@@ -14,48 +16,60 @@ function calculateMemoryGradients(memoryParameters, batchSize) {
 }
 
 function calculateInputUsage(inputShape, batchSize) {
-    if (Array.isArray(inputShape)) {
+    if (Array.isArray(eval(inputShape))) {
         let aux = 1;
-        inputShape.forEach(i => aux *= i);
+
+        let arr = JSON.parse(inputShape)
+        for (var i = 0; i < arr.length; i++) {
+            aux*=arr[i]
+
+          }
+
         return aux * batchSize;
     } else if (/^[0-9]+$/.test(inputShape)) {
+        console.log("a"+inputShape)
+
         return inputShape * batchSize;
     }
+    
 }
 
 export default function calculateTotalMemory(parameterCount, batchSize, inputShape, weightPrecisionString, gradientPrecisionString, training, optimizer, summary, library) {
     let activationsMem = 0;
+    console.log(gradientPrecisionString)
     let gradientPrecision = gradientPrecisionString.substring(5, gradientPrecisionString.length);
     let weightPrecision = weightPrecisionString.substring(5, weightPrecisionString.length);
 
     if (summary !== undefined && library !== undefined) {
-        console.log("entra a parser");
+        console.log("entra a parser"+library);
         if (library === "pytorch") {
             let p = 0;
             let outsParams = parsePytorchSummary(summary);
+            console.log(outsParams)
             outsParams.forEach(([outShape, params]) => {
                 activationsMem += outShape;
                 p += params;
             });
             parameterCount = p;
-            console.log(totalGB + 0.2 * totalGB);
         } else if (library === "tensorflow") {
             // Handle TensorFlow case
         } else if (library === "jax") {
             // Handle JAX case
         }
     }
+
     activationsMem *= batchSize * gradientPrecision;
     activationsMem = bitsToGB(activationsMem)
     let input_mem = bitsToGB(calculateInputUsage(inputShape, batchSize))*weightPrecision;
     let optimizerMem = dict_mapper[optimizer](parameterCount);
+    console.log(weightPrecision)
 
     var parameters_mem = bitsToGB(parameterCount)*weightPrecision;
     
     var gradientsMem = training ?  (bitsToGB(parameterCount) + bitsToGB( optimizerMem)) * gradientPrecision : 0;
 
-    let totalGB = parameters_mem +input_mem+ gradientsMem + activationsMem;
-
+    let totalGB = parameters_mem + input_mem+ gradientsMem + activationsMem;
+    console.log(totalGB)
     return totalGB + 0.2 * totalGB;
 }
 
@@ -97,31 +111,3 @@ const dict_mapper = {
 
 //OTRO SCRIPT
 
-function parsePytorchSummary(summaryStr) {
-    const layerInfo = [];
-    let capture = false;
-    const lines = summaryStr.split("\n");
-
-    lines.forEach(line => {
-        if (line.includes("Layer (type)")) {
-            capture = true;
-            return;
-        }
-        if (line.includes("Total params")) {
-            capture = false;
-        }
-
-        const outShapeMatches = line.match(/\[.*?\]/);
-        if (outShapeMatches !== null && outShapeMatches.length > 0) {
-            const params = parseInt(line.split(" ").slice(-1)[0].replace(/,/g, ""), 10);
-            const outShape = outShapeMatches[0].slice(1, -1);
-            let outSize = 1;
-            outShape.split(",").forEach(dim => {
-                outSize *= Math.abs(parseInt(dim, 10));
-            });
-            layerInfo.push([outSize, params]);
-        }
-    });
-
-    return layerInfo;
-}

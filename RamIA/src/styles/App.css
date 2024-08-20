@@ -109,7 +109,6 @@ body {
     background-color: var(--custom-btn-color);
 }
 
-
 @keyframes moveDiagonalLeft {
     0%{
         position: absolute;
@@ -131,8 +130,12 @@ body {
 @keyframes moveDiagonalRight {
     0%{
         position: absolute;
-        top: 0%;
+        top: 35%;
         left: 0%;
+        width: 50%;
+        height: 100%;
+        border-radius: 0;
+        font-size: var(--font-size-panel);
     }
     100% {
         position: absolute;
@@ -154,10 +157,9 @@ body {
 
 .move-diagonal-right {
     background-color: var(--basic-btn-color);
-    animation: moveDiagonalRight .5s ease forwards;
+    animation: moveDiagonalRight 0.5s linear forwards;
     box-shadow: 2px 1px 15px black;
 }
-
 
 @media screen and (max-height: 600px) {
     .titleContainer {

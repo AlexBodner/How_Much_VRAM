@@ -1,0 +1,64 @@
+.modelSummaryForm {
+    display: flex;
+    flex-direction: column;
+    background-color: #7A858E;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+}
+
+.formField {
+    margin-bottom: 20px;
+}
+
+.formField label {
+    display: block;
+    color: white;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.modelSummaryInput {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid #666666;
+    border-radius: 5px;
+    color: #9DE5FF;
+    font-size: 14px;
+}
+
+.checkboxField {
+    display: flex;
+    align-items: center;
+}
+
+.checkboxField label {
+    margin-right: 10px;
+}
+
+.checkboxField input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #666666;
+    border-radius: 4px;
+}
+
+.submitButton {
+    width: 100%;
+    background-color: #111113;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+    background-color: #333;
+}

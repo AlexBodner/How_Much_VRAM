@@ -1,9 +1,10 @@
-export default function parsePytorchSummary(summaryStr) {
+export  function parsePytorchSummary(summaryStr) {
     const layerInfo = [];
     let capture = false;
     const lines = summaryStr.split("\n");
-
+    console.log("parser rrr")
     lines.forEach(line => {
+        console.log("line"+ line);
         if (line.includes("Layer (type)")) {
             capture = true;
             return;
