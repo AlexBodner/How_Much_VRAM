@@ -1,20 +1,21 @@
+import { motion } from 'framer-motion';
+
 export default function Button({ text, description, icon, styles, handleClick }) {
-  
-    const handleClickAndLog = () => {
-      console.log(styles);
-      handleClick();
-    };
-    
-    return (
-      <button className={styles} onClick={handleClickAndLog}>
-        <div className="buttonContent">
-          <div className="icon">{icon}</div>
-          <div className="textContainer">
-            <p className="buttonTextStyle">{text}</p>
-            <p className="buttonDescription">{description}</p>
-          </div>
+  return (
+    <motion.button
+      className={styles}
+      onClick={handleClick}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 10 }}
+    >
+      <div className="buttonContent">
+        <div className="icon">{icon}</div>
+        <div className="textContainer">
+          <p className="buttonTextStyle">{text}</p>
+          <p className="buttonDescription">{description}</p>
         </div>
-      </button>
-    );
-  }
-  
+      </div>
+    </motion.button>
+  );
+}

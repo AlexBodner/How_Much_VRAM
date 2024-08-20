@@ -8,9 +8,12 @@ const customStyles = {
   control: (provided) => ({
     ...provided,
     backgroundColor: 'transparent',
-    border: 'none',
+    border: '1px solid #9DE5FF',
+    borderRadius: '8px',
     boxShadow: 'none',
     color: '#9DE5FF',
+    padding: '8px',
+    marginBottom: '16px',
   }),
   singleValue: (provided) => ({
     ...provided,
@@ -19,11 +22,14 @@ const customStyles = {
   menu: (provided) => ({
     ...provided,
     backgroundColor: '#4A4A4A',
+    borderRadius: '8px',
+    marginTop: '4px',
   }),
   option: (provided, state) => ({
     ...provided,
     backgroundColor: state.isSelected ? '#666666' : '#4A4A4A',
     color: '#9DE5FF',
+    padding: '12px',
   }),
 };
 
@@ -61,17 +67,17 @@ export default function ModelSummary() {
 
   return (
     <form className="modelSummaryForm" onSubmit={handleSubmit(onSubmit)}>
-      <div className="formRow">
-        <div className="formField">
+      <div className="formGrid">
+        <div className="formField fullWidth">
           <label>Model Summary</label>
-          <textarea type="text" {...register('summary')} rows="10" cols="50" />
+          <textarea {...register('summary')} rows="10" cols="50" />
         </div>
         <div className="formField">
           <label>Library</label>
           <Controller
             name="library"
             control={control}
-            defaultValue={{ value: 'pytorch', label: 'Pytorch' }}
+            defaultValue={{ value: 'pytorch', label: 'PyTorch' }}
             render={({ field }) => (
               <Select
                 {...field}
@@ -81,8 +87,6 @@ export default function ModelSummary() {
             )}
           />
         </div>
-      </div>
-      <div className="formRow">
         <div className="formField">
           <label>Input Shape</label>
           <input type="text" {...register('inputSize')} />
@@ -91,8 +95,6 @@ export default function ModelSummary() {
           <label>Batch Size</label>
           <input type="text" {...register('batchSize')} />
         </div>
-      </div>
-      <div className="formRow">
         <div className="formField">
           <label>Weights Precision</label>
           <Controller
@@ -133,8 +135,6 @@ export default function ModelSummary() {
             )}
           />
         </div>
-      </div>
-      <div className="formRow">
         <div className="formField">
           <label>Optimizer</label>
           <Controller
@@ -156,12 +156,14 @@ export default function ModelSummary() {
           />
         </div>
         <div className="formField checkboxField">
-          <label>Training</label>
-          <input type="checkbox" {...register('training')} />
+          <label>
+            <input type="checkbox" {...register('training')} />
+            Training
+          </label>
         </div>
       </div>
-      <div className="formRow">
-        <button type="button" className="calculateButton" onClick={handleSubmit(onSubmit)}>
+      <div className="formActions">
+        <button type="submit" className="calculateButton">
           Calculate VRAM
         </button>
       </div>
