@@ -81,7 +81,10 @@ export default function ModelSummary() {
           </Tooltip>
         </div>
         <div className="formField">
-          <label>Library</label>
+          <label>Library
+          <span className="tooltip-trigger" data-tooltip-id="library-tooltip">?</span>
+
+          </label>
           <Controller
             name="library"
             control={control}
@@ -94,6 +97,9 @@ export default function ModelSummary() {
               />
             )}
           />
+                    <Tooltip id="library-tooltip" place="top" effect="solid">
+            Choose the library format that your summary has.
+          </Tooltip>
         </div>
     
           <div className="formField">
@@ -107,8 +113,14 @@ export default function ModelSummary() {
           </Tooltip>
         </div>
         <div className="formField">
-          <label>Batch Size</label>
+          <label>
+            Batch size
+            <span className="tooltip-trigger" data-tooltip-id="batch-size-tooltip">?</span>
+          </label>
           <input type="text" {...register('batchSize')} />
+          <Tooltip id="batch-size-tooltip" place="top" effect="solid">
+            The number of samples processed in one forward/backward pass
+          </Tooltip>
         </div>
         <div className="formField">
           <label>
