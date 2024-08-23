@@ -72,8 +72,13 @@ export default function ModelSummary() {
     <form className="modelSummaryForm" onSubmit={handleSubmit(onSubmit)}>
       <div className="formGrid">
         <div className="formField fullWidth">
-          <label>Model Summary</label>
+          <label>Model Summary          
+            <span className="tooltip-trigger" data-tooltip-id="summary-tooltip">?</span>
+          </label>
           <textarea {...register('summary')} rows="10" cols="50" />
+          <Tooltip id="summary-tooltip" place="top" effect="solid">
+            The model summary of the selected library. When using Pytorch please use torchsummary module.
+          </Tooltip>
         </div>
         <div className="formField">
           <label>Library</label>
