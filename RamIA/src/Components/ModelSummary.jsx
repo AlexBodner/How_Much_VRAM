@@ -5,6 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import calculateTotalMemory from '../scripts/modelMemoryCalculation';
 import CalculateButton from './CalculateButton';
 import VRAMResult from './VRAMResult';
+import { Tooltip } from 'react-tooltip';
 
 const customStyles = {
   control: (provided) => ({
@@ -89,16 +90,26 @@ export default function ModelSummary() {
             )}
           />
         </div>
-        <div className="formField">
-          <label>Input Shape</label>
+    
+          <div className="formField">
+          <label>
+            Input shape
+            <span className="tooltip-trigger" data-tooltip-id="input-size-tooltip">?</span>
+          </label>
           <input type="text" {...register('inputSize')} />
+          <Tooltip id="input-size-tooltip" place="top" effect="solid">
+            The dimensions of a single input to your model (e.g., [224,224,3] for an image). It must be an array between [] or an integer.
+          </Tooltip>
         </div>
         <div className="formField">
           <label>Batch Size</label>
           <input type="text" {...register('batchSize')} />
         </div>
         <div className="formField">
-          <label>Weights Precision</label>
+          <label>
+            Weights precision
+            <span className="tooltip-trigger" data-tooltip-id="weights-precision-tooltip">?</span>
+          </label>
           <Controller
             name="weightsPrecision"
             control={control}
@@ -116,9 +127,15 @@ export default function ModelSummary() {
               />
             )}
           />
+          <Tooltip id="weights-precision-tooltip" place="top" effect="solid">
+            The numerical precision used for storing model weights
+          </Tooltip>
         </div>
         <div className="formField">
-          <label>Gradients Precision</label>
+          <label>
+            Gradients Precision
+            <span className="tooltip-trigger" data-tooltip-id="gradients-precision-tooltip">?</span>
+          </label>
           <Controller
             name="gradientsPrecision"
             control={control}
@@ -136,9 +153,15 @@ export default function ModelSummary() {
               />
             )}
           />
+          <Tooltip id="gradients-precision-tooltip" place="top" effect="solid">
+            The numerical precision used for storing gradients during training
+          </Tooltip>
         </div>
         <div className="formField">
-          <label>Optimizer</label>
+          <label>
+            Optimizer
+            <span className="tooltip-trigger" data-tooltip-id="optimizer-tooltip">?</span>
+          </label>
           <Controller
             name="optimizer"
             control={control}
@@ -156,6 +179,9 @@ export default function ModelSummary() {
               />
             )}
           />
+          <Tooltip id="optimizer-tooltip" place="top" effect="solid">
+            The optimization algorithm used for training the model
+          </Tooltip>
         </div>
         <div className="formField checkboxField">
           <label>

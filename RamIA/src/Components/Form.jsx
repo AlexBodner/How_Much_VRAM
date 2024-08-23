@@ -67,12 +67,12 @@ export default function Form() {
         </div>
           <div className="formField">
           <label>
-            Input size
+            Input shape
             <span className="tooltip-trigger" data-tooltip-id="input-size-tooltip">?</span>
           </label>
           <input type="text" {...register('inputSize')} />
           <Tooltip id="input-size-tooltip" place="top" effect="solid">
-            The dimensions of a single input to your model (e.g., [224,224,3] for an image)
+            The dimensions of a single input to your model (e.g., [224,224,3] for an image). It must be an array between [] or an integer.
           </Tooltip>
         </div>
       </div>
