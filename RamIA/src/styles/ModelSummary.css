@@ -9,8 +9,18 @@
     margin: auto;
 }
 
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
 .formField {
     margin-bottom: 20px;
+}
+
+.formField.fullWidth {
+    grid-column: 1 / -1;
 }
 
 .formField label {
@@ -21,15 +31,20 @@
     font-weight: bold;
 }
 
-.modelSummaryInput {
+.formField textarea,
+.formField input[type="text"] {
     width: 100%;
-    height: 150px;
     padding: 10px;
     background-color: transparent;
-    border: 1px solid #666666;
-    border-radius: 5px;
+    border: 1px solid #9DE5FF;
+    border-radius: 8px;
     color: #9DE5FF;
     font-size: 14px;
+}
+
+.formField textarea {
+    height: 150px;
+    resize: vertical;
 }
 
 .checkboxField {
@@ -39,26 +54,27 @@
 
 .checkboxField label {
     margin-right: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .checkboxField input[type="checkbox"] {
-    width: 24px;
-    height: 24px;
-    border: 2px solid #666666;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    appearance: none;
+    border: 2px solid #9DE5FF;
     border-radius: 4px;
-}
-
-.submitButton {
-    width: 100%;
-    background-color: #111113;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+    outline: none;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
 }
 
-.submitButton:hover {
-    background-color: #333;
+.checkboxField input[type="checkbox"]:checked {
+    background-color: #9DE5FF;
 }
+
+.formActions {
+    margin-top: 20px;
+}
+
+/* VRAMResult styles are in VRAMResult.css, so we don't need to add them here */

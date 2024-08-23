@@ -1,101 +1,86 @@
-
-
-.formRow {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;  /* Increased margin */
-}
-
-.formField {
-    flex: 1;
-    margin-right: 20px;  /* Increased margin */
-}
-
-.formField:last-child {
-    margin-right: 0;
-}
-
-.formField label {
-    display: block;
-    color: white;  /* Changed to white */
-    margin-bottom: 8px;  /* Increased margin */
-    font-size: 16px;  /* Increased font size */
-    font-weight: bold;  /* Made label bold */
-}
-
-.formField input[type="number"],
-.formField input[type="text"] {
+.formContainer {
+    background-color: #7A858E;
+    padding: 20px;
+    border-radius: 10px;
     width: 100%;
-    padding: 10px;  /* Increased padding */
-    background-color: transparent;
-    border: 1px solid #666666;
-    border-radius: 5px;
-    color: #9DE5FF;
-    font-size: 14px;  /* Increased font size */
-}
-
-.checkboxField {
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .formGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .formField {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formField label {
+    color: white;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: bold;
     display: flex;
     align-items: center;
-}
-
-.checkboxField label {
-    margin-right: 15px;  /* Increased margin */
-}
-
-.checkboxField input[type="checkbox"] {
-    width: 24px;  /* Increased size */
-    height: 24px;  /* Increased size */
+  }
+  
+  .formField input[type="text"],
+  .formField input[type="number"] {
+    width: 100%;
+    padding: 10px;
     background-color: transparent;
-    border: 2px solid #666666;  /* Increased border width */
+    border: 1px solid #9DE5FF;
+    border-radius: 8px;
+    color: #9DE5FF;
+    font-size: 14px;
+  }
+  
+  .checkboxField {
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .checkboxField label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .checkboxField input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    appearance: none;
+    border: 2px solid #9DE5FF;
     border-radius: 4px;
-}
-
-/* Styling for react-select */
-.css-1s2u09g-control {
-    background-color: transparent !important;
-    border-color: #666666 !important;
-    min-height: 40px !important;  /* Increased height */
-}
-
-.css-1pahdxg-control {
-    background-color: transparent !important;
-    border-color: #9DE5FF !important;
-    box-shadow: none !important;
-    min-height: 40px !important;  /* Increased height */
-}
-
-.css-26l3qy-menu {
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .checkboxField input[type="checkbox"]:checked {
+    background-color: #9DE5FF;
+  }
+  
+  .formActions {
+    margin-top: 20px;
+  }
+  
+  .tooltip-trigger {
+    margin-left: 5px;
+    cursor: help;
+    color: #9DE5FF;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  /* React-tooltip styles */
+  .react-tooltip {
     background-color: #4A4A4A !important;
-}
-
-.css-1n7v3ny-option {
-    background-color: #666666 !important;
-}
-
-.css-9gakcf-option {
-    background-color: #4A4A4A !important;
-}
-
-.css-1rhbuit-multiValue {
-    background-color: #666666 !important;
-}
-
-.css-12jo7m5 {
     color: #9DE5FF !important;
-}
-
-/* Additional styles for select components */
-.css-1wa3eu0-placeholder,
-.css-1uccc91-singleValue {
-    color: #9DE5FF !important;  /* Keeping option text color */
-}
-
-.css-b8ldur-Input {
-    color: #9DE5FF !important;
-}
-
-/* Increase spacing between options in dropdown */
-.css-yt9ioa-option {
-    padding: 12px 8px !important;
-}
+    border: 1px solid #9DE5FF !important;
+    font-size: 12px !important;
+    max-width: 200px !important;
+  }

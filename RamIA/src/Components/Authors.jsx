@@ -3,17 +3,17 @@ import '../styles/Authors.css';
 export default function Authors() {
   const authors = [
     {
-      name: "Author 1",
+      name: "Alexander Bodner",
       role: "Developer",
       social: {
-        twitter: "https://twitter.com/author1",
-        github: "https://github.com/author1",
-        linkedin: "https://linkedin.com/in/author1"
+        twitter: "https://x.com/AlexBodner_",
+        github: "https://github.com/AlexBodner",
+        linkedin: "https://www.linkedin.com/in/alexanderbodner/"
       }
     },
     {
-      name: "Author 2",
-      role: "Designer",
+      name: "Tomás Podolsky",
+      role: "Developer",
       social: {
         twitter: "https://twitter.com/author2",
         github: "https://github.com/author2",

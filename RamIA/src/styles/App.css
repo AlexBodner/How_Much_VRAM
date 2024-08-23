@@ -127,3 +127,7 @@
       max-width: none;
     }
   }
+  .main-content {
+    flex-grow: 1;
+    padding-top: 80px; /* Increased to account for the fixed header */
+  } 

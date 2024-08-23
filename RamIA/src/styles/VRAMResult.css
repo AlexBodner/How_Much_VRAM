@@ -1,0 +1,38 @@
+.vram-result {
+    background-color: #3a3a43;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .vram-result h3 {
+    color: #54FFAD;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .vram-value {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  
+  .vram-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #9DE5FF;
+  }
+  
+  .vram-unit {
+    font-size: 1.5rem;
+    color: #9DE5FF;
+    margin-left: 5px;
+  }
+  
+  .vram-description {
+    color: #A2AAB3;
+    font-size: 0.9rem;
+  }

@@ -4,6 +4,7 @@ import Select from 'react-select';
 import { useForm, Controller } from 'react-hook-form';
 import calculateTotalMemory from '../scripts/modelMemoryCalculation';
 import CalculateButton from './CalculateButton';
+import VRAMResult from './VRAMResult';
 
 const customStyles = {
   control: (provided) => ({
@@ -167,12 +168,7 @@ export default function ModelSummary() {
         <CalculateButton onClick={handleSubmit(onSubmit)} />
       </div>
 
-      {vramResult && (
-        <div className="resultField">
-          <p>Estimated VRAM: {vramResult} GB</p>
-        </div>
-      )}
+      {vramResult && <VRAMResult vram={vramResult} />}
     </form>
   );
 }
-
