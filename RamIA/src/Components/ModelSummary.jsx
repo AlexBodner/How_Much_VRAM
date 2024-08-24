@@ -119,7 +119,7 @@ export default function ModelSummary() {
           </label>
           <input type="text" {...register('batchSize')} />
           <Tooltip id="batch-size-tooltip" place="top" effect="solid">
-            The number of samples processed in one forward/backward pass
+            The number of samples processed in one forward/backward pass.
           </Tooltip>
         </div>
         <div className="formField">
