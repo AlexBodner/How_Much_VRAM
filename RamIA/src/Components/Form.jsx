@@ -60,19 +60,19 @@ export default function Form() {
   };
 
   return (
-    <form className="formContainer" onSubmit={handleSubmit(onSubmit)}>
+ <form className="formContainer" onSubmit={handleSubmit(onSubmit)}>
       <div className="formRow">
         <div className="formField">
-            <label>
-              Parameter count
-              <span className="tooltip-trigger" data-tooltip-id="param-count-tooltip">?</span>
-            </label>
-            <input type="text" {...register('paramCount')} placeholder="e.g., 1000000" />
-            <Tooltip id="param-count-tooltip" place="top" effect="solid">
-              The total number of trainable parameters in your model. For example, a small model might have 1,000,000 parameters.
-            </Tooltip>
-          </div>
-          <div className="formField">
+          <label>
+            Parameter count
+            <span className="tooltip-trigger" data-tooltip-id="param-count-tooltip">?</span>
+          </label>
+          <input type="text" {...register('paramCount')} placeholder="e.g., 1000000" />
+          <Tooltip id="param-count-tooltip" place="top" effect="solid">
+            The total number of trainable parameters in your model. For example, a small model might have 1,000,000 parameters.
+          </Tooltip>
+        </div>
+        <div className="formField">
           <label>
             Input shape
             <span className="tooltip-trigger" data-tooltip-id="input-size-tooltip">?</span>

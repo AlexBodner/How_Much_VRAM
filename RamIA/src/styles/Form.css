@@ -1,87 +1,101 @@
 .formContainer {
-    background-color: #7A858E;
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
-  }
-  
+  background-color: #3a3a43;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.formField label {
+  color: white;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.formField input[type="text"],
+.formField input[type="number"] {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #9DE5FF;
+  border-radius: 8px;
+  color: #9DE5FF;
+  font-size: 0.875rem;
+}
+
+.checkboxField {
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkboxField label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkboxField input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.625rem;
+  appearance: none;
+  border: 2px solid #9DE5FF;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.checkboxField input[type="checkbox"]:checked {
+  background-color: #9DE5FF;
+}
+
+.formActions {
+  margin-top: 1.25rem;
+}
+
+.tooltip-trigger {
+  margin-left: 0.3125rem;
+  cursor: help;
+  color: #9DE5FF;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.react-tooltip {
+  background-color: #4A4A4A !important;
+  color: #9DE5FF !important;
+  border: 1px solid #9DE5FF !important;
+  font-size: 0.75rem !important;
+  max-width: 200px !important;
+}
+
+@media (max-width: 600px) {
   .formGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: 1fr;
   }
-  
-  .formField {
-    display: flex;
-    flex-direction: column;
-  }
-  
+
   .formField label {
-    color: white;
-    margin-bottom: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
+    font-size: 0.875rem;
   }
-  
+
   .formField input[type="text"],
   .formField input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    background-color: transparent;
-    border: 1px solid #9DE5FF;
-    border-radius: 8px;
-    color: #9DE5FF;
-    font-size: 14px;
+    font-size: 0.8125rem;
   }
-  
-  .checkboxField {
-    flex-direction: row;
-    align-items: center;
-  }
-  
-  .checkboxField label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .checkboxField input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-    appearance: none;
-    border: 2px solid #9DE5FF;
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
-  }
-  
-  .checkboxField input[type="checkbox"]:checked {
-    background-color: #9DE5FF;
-  }
-  
-  .formActions {
-    margin-top: 20px;
-  }
-  
-  .tooltip-trigger {
-    margin-left: 5px;
-    cursor: help;
-    color: #9DE5FF;
-    font-weight: bold;
-    font-size: 14px;
-  }
-  
-  /* React-tooltip styles */
-  .react-tooltip {
-    background-color: #4A4A4A !important;
-    color: #9DE5FF !important;
-    border: 1px solid #9DE5FF !important;
-    font-size: 12px !important;
-    max-width: 200px !important;
-  }
-  
+}

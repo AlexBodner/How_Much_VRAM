@@ -29,35 +29,38 @@
   
   .main-content {
     flex-grow: 1;
-    padding-top: 60px; /* Adjust this value based on your header height */
+    padding-top: 80px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
   
   .contentSection {
     width: 100%;
     max-width: 800px;
     margin: 2rem auto;
-    padding: 2rem;
+    padding: 1rem;
     background-color: #3a3a43;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
+  
   .mainBtns {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    gap: 2rem;
+    align-items: stretch;
+    padding: 1rem;
+    gap: 1rem;
   }
   
   .titleContainer {
     width: 100%;
     text-align: center;
     background-color: var(--black-font);
-    padding: 1rem 2rem;
+    padding: 1rem;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
   
   .title {
@@ -67,8 +70,7 @@
   }
   
   .mainBtn {
-    flex: 1;
-    min-width: 250px;
+    flex: 1 1 250px;
     max-width: 400px;
     aspect-ratio: 16 / 9;
     border: none;
@@ -78,6 +80,7 @@
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    padding: 1rem;
   }
   
   .mainBtn:hover {
@@ -111,7 +114,7 @@
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 1rem;
     background-color: #3a3a43;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -120,14 +123,15 @@
   @media screen and (max-width: 768px) {
     .mainBtns {
       flex-direction: column;
+      align-items: center;
     }
   
     .mainBtn {
       width: 100%;
       max-width: none;
     }
+  
+    .title {
+      font-size: clamp(1.2rem, 5vw, 2rem);
+    }
   }
-  .main-content {
-    flex-grow: 1;
-    padding-top: 80px; /* Increased to account for the fixed header */
-  } 
