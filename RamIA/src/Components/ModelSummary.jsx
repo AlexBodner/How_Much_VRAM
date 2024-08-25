@@ -70,14 +70,30 @@ export default function ModelSummary() {
 
   return (
     <form className="modelSummaryForm" onSubmit={handleSubmit(onSubmit)}>
-      <div className="formGrid">
+     <div className="formGrid">
         <div className="formField fullWidth">
           <label>Model Summary          
             <span className="tooltip-trigger" data-tooltip-id="summary-tooltip">?</span>
           </label>
-          <textarea {...register('summary')} rows="10" cols="50" />
+          <textarea 
+            {...register('summary')} 
+            rows="10" 
+            cols="50" 
+            placeholder="Paste your model summary here. For example:
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d (Conv2D)              (None, 222, 222, 32)      896       
+max_pooling2d (MaxPooling2D) (None, 111, 111, 32)      0         
+flatten (Flatten)            (None, 393248)            0         
+dense (Dense)                (None, 64)                25167936  
+dense_1 (Dense)              (None, 10)                650       
+=================================================================
+Total params: 25,169,482
+Trainable params: 25,169,482
+Non-trainable params: 0"
+          />
           <Tooltip id="summary-tooltip" place="top" effect="solid">
-            The model summary of the selected library. When using Pytorch please use torchsummary module.
+            Paste the model summary from your framework. For PyTorch, use torchsummary. For TensorFlow/Keras, use model.summary().
           </Tooltip>
         </div>
         <div className="formField">
@@ -96,19 +112,18 @@ export default function ModelSummary() {
               />
             )}
           />
-          <Tooltip id="library-tooltip" place="top" effect="solid">
+            <Tooltip id="library-tooltip" place="top" effect="solid">
             Choose the library format that your summary has.
           </Tooltip>
         </div>
-    
-          <div className="formField">
+        <div className="formField">
           <label>
             Input shape
             <span className="tooltip-trigger" data-tooltip-id="input-size-tooltip">?</span>
           </label>
-          <input type="text" {...register('inputSize')} />
+          <input type="text" {...register('inputSize')} placeholder="e.g., [224,224,3]" />
           <Tooltip id="input-size-tooltip" place="top" effect="solid">
-            The dimensions of a single input to your model (e.g., [224,224,3] for an image). It must be an array between [] or an integer.
+            The dimensions of a single input to your model. For example, [224,224,3] for a 224x224 RGB image.
           </Tooltip>
         </div>
         <div className="formField">
@@ -116,9 +131,9 @@ export default function ModelSummary() {
             Batch size
             <span className="tooltip-trigger" data-tooltip-id="batch-size-tooltip">?</span>
           </label>
-          <input type="text" {...register('batchSize')} />
+          <input type="text" {...register('batchSize')} placeholder="e.g., 32" />
           <Tooltip id="batch-size-tooltip" place="top" effect="solid">
-            The number of samples processed in one forward/backward pass.
+            The number of samples processed in one forward/backward pass. Common values are 32, 64, or 128.
           </Tooltip>
         </div>
         <div className="formField">

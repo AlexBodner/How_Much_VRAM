@@ -67,31 +67,31 @@ export default function Form() {
               Parameter count
               <span className="tooltip-trigger" data-tooltip-id="param-count-tooltip">?</span>
             </label>
-            <input type="text" {...register('paramCount')} />
+            <input type="text" {...register('paramCount')} placeholder="e.g., 1000000" />
             <Tooltip id="param-count-tooltip" place="top" effect="solid">
-              The total number of trainable parameters in your model
+              The total number of trainable parameters in your model. For example, a small model might have 1,000,000 parameters.
             </Tooltip>
-        </div>
+          </div>
           <div className="formField">
           <label>
             Input shape
             <span className="tooltip-trigger" data-tooltip-id="input-size-tooltip">?</span>
           </label>
-          <input type="text" {...register('inputSize')} />
+          <input type="text" {...register('inputSize')} placeholder="e.g., [224,224,3]" />
           <Tooltip id="input-size-tooltip" place="top" effect="solid">
-            The dimensions of a single input to your model (e.g., [224,224,3] for an image). It must be an array between [] or an integer.
+            The dimensions of a single input to your model. For example, [224,224,3] for a 224x224 RGB image.
           </Tooltip>
         </div>
       </div>
       <div className="formRow">
-      <div className="formField">
+        <div className="formField">
           <label>
             Batch size
             <span className="tooltip-trigger" data-tooltip-id="batch-size-tooltip">?</span>
           </label>
-          <input type="text" {...register('batchSize')} />
+          <input type="text" {...register('batchSize')} placeholder="e.g., 32" />
           <Tooltip id="batch-size-tooltip" place="top" effect="solid">
-            The number of samples processed in one forward/backward pass
+            The number of samples processed in one forward/backward pass. Common values are 32, 64, or 128.
           </Tooltip>
         </div>
         <div className="formField checkboxField">
@@ -101,7 +101,7 @@ export default function Form() {
             <span className="tooltip-trigger" data-tooltip-id="training-tooltip">?</span>
           </label>
           <Tooltip id="training-tooltip" place="top" effect="solid">
-            Check if you're training the model and blank if you are only doing inference
+            Check if you're training the model. Leave unchecked for inference only.
           </Tooltip>
         </div>
       </div>
