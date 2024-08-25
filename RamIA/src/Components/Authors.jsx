@@ -15,9 +15,9 @@ export default function Authors() {
       name: "Tomás Podolsky",
       role: "Developer",
       social: {
-        twitter: "https://twitter.com/author2",
-        github: "https://github.com/author2",
-        linkedin: "https://linkedin.com/in/author2"
+        twitter: "TomiPod0",
+        github: "tomipodo",
+        linkedin: "https://www.linkedin.com/in/tpodolsk/"
       }
     }
   ];
