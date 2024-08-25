@@ -1,0 +1,1534 @@
+.\index.html
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
+
+.\netlify.toml
+
+[build]
+base = "RamIA"    # Set the base directory to the subfolder
+command = "npm run build"  # The command to build your Vite project
+publish = "dist"  # The directory to publish, relative to the base directory
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+.\vite.config.js
+
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    outDir: 'dist',  // This is the default output directory
+  },
+  base: './', // This ensures that the paths are relative, important for deploying to subdirectories
+});
+
+.\.netlify\netlify.toml
+
+redirectsOrigin = "config"
+plugins = []
+headers = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "D:\\Programacao\\How_Much_VRAM\\RamIA\\dist"
+publishOrigin = "config"
+commandOrigin = "config"
+base = "D:\\Programacao\\How_Much_VRAM\\RamIA"
+command = "npm run build"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+.\.netlify\state.json
+
+{
+	"siteId": "b4fdb99e-1f14-465a-b1a9-044e51135ea4"
+}
+
+.\src\App.jsx
+
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Header from './Components/Header.jsx';
+import Button from './Components/Button.jsx';
+import Basic from './Components/Basic.jsx';
+import ModelSummary from './Components/ModelSummary.jsx';
+import Authors from './Components/Authors.jsx';
+import './styles/App.css';
+
+export default function Component() {
+  const [modelTypeSelected, setModelTypeSelected] = useState('none');
+  const [activePage, setActivePage] = useState('home');
+  const contentRef = useRef(null);
+
+  const handleButtonClick = (type) => {
+    setModelTypeSelected((currentType) => currentType === type ? 'none' : type);
+  };
+
+  const handleNavClick = (page) => {
+    setActivePage(page);
+    setModelTypeSelected('none');
+  };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [modelTypeSelected, activePage]);
+
+  return (
+    <div className='app'>
+      <Header activePage={activePage} onNavClick={handleNavClick} />
+      <main className='main-content'>
+        <AnimatePresence mode="wait">
+          {activePage === 'home' ? (
+            <motion.div
+              key="home"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <section className='mainBtns'>
+                <div className='titleContainer'>
+                  <h2 className='title'>How much VRAM do you need?</h2>
+                </div>
+                <Button
+                  text="Simple calculation"
+                  description="Specify parameter count and find out how much memory you will need. This is a less precise way that doesn't account for intermediate activations."
+                  icon="🧮"
+                  styles={`mainBtn basicBtn ${modelTypeSelected === 'basic' ? 'selected' : ''}`}
+                  handleClick={() => handleButtonClick('basic')}
+                />
+                <Button
+                  text="Model summary"
+                  description="Input a summary of the architecture from your favorite library and get a precise estimate of the needed memory for your model."
+                  icon="📝"
+                  styles={`mainBtn modelSummaryBtn ${modelTypeSelected === 'modelSummary' ? 'selected' : ''}`}
+                  handleClick={() => handleButtonClick('modelSummary')}
+                />
+                <Button
+                  text="Build your model (Coming Soon)"
+                  description="Build your model with our UI and get the code for it and its memory usage."
+                  icon="🧩"
+                  styles={`mainBtn buildModelBtn ${modelTypeSelected === 'buildModel' ? 'selected' : ''} disabled`}
+                  handleClick={() => {}}
+                />
+              </section>
+              <div ref={contentRef}>
+                <AnimatePresence mode="wait">
+                  {modelTypeSelected === 'basic' && (
+                    <motion.div
+                      key="basic"
+                      className='contentSection'
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -50 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Basic />
+                    </motion.div>
+                  )}
+                  {modelTypeSelected === 'modelSummary' && (
+                    <motion.div
+                      key="modelSummary"
+                      className='contentSection'
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -50 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <ModelSummary />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="authors"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Authors />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </main>
+    </div>
+  );
+}
+
+.\src\main.jsx
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App/>
+  </React.StrictMode>,
+)
+
+
+.\src\Components\Authors.jsx
+
+import '../styles/Authors.css';
+
+export default function Authors() {
+  const authors = [
+    {
+      name: "Alexander Bodner",
+      role: "Developer",
+      social: {
+        twitter: "https://x.com/AlexBodner_",
+        github: "https://github.com/AlexBodner",
+        linkedin: "https://www.linkedin.com/in/alexanderbodner/"
+      }
+    },
+    {
+      name: "Tomás Podolsky",
+      role: "Developer",
+      social: {
+        twitter: "TomiPod0",
+        github: "tomipodo",
+        linkedin: "https://www.linkedin.com/in/tpodolsk/"
+      }
+    }
+  ];
+
+  return (
+    <section className="authors">
+      <h2>Meet the Authors</h2>
+      <div className="authorGrid">
+        {authors.map((author, index) => (
+          <div key={index} className="authorCard">
+            <h3>{author.name}</h3>
+            <p>{author.role}</p>
+            <div className="socialLinks">
+              <a href={author.social.twitter} target="_blank" rel="noopener noreferrer">Twitter</a>
+              <a href={author.social.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href={author.social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+.\src\Components\Basic.jsx
+
+import Preset from "./Preset"
+import Form from "./Form"
+import '../styles/Basic.css'
+
+export default function Basic() {
+    return (
+        <section className="basicContainer">
+            {/*<Preset/>*/}
+            <Form/>
+        </section>
+    )
+}
+
+.\src\Components\Button.jsx
+
+import { motion } from 'framer-motion';
+
+export default function Button({ text, description, icon, styles, handleClick }) {
+  return (
+    <motion.button
+      className={styles}
+      onClick={handleClick}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 10 }}
+    >
+      <div className="buttonContent">
+        <div className="icon">{icon}</div>
+        <div className="textContainer">
+          <p className="buttonTextStyle">{text}</p>
+          <p className="buttonDescription">{description}</p>
+        </div>
+      </div>
+    </motion.button>
+  );
+}
+
+.\src\Components\CalculateButton.jsx
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import '../styles/CalculateButton.css';
+
+const CalculateButton = ({ onClick }) => {
+  return (
+    <motion.button
+      className="calculate-button"
+      onClick={onClick}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+    >
+      <span className="button-text">Calculate VRAM</span>
+      <motion.span
+        className="button-icon"
+        initial={{ x: -5 }}
+        animate={{ x: 5 }}
+        transition={{ repeat: Infinity, repeatType: 'reverse', duration: 0.6 }}
+      >
+        →
+      </motion.span>
+    </motion.button>
+  );
+};
+
+export default CalculateButton;
+
+.\src\Components\Form.jsx
+
+import React, { useState } from 'react';
+import '../styles/Form.css';
+import Select from 'react-select';
+import { useForm, Controller } from 'react-hook-form';
+import calculateTotalMemory from '../scripts/modelMemoryCalculation';
+import CalculateButton from './CalculateButton';
+import VRAMResult from './VRAMResult';
+import { Tooltip } from 'react-tooltip';
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    backgroundColor: 'transparent',
+    border: '1px solid #9DE5FF',
+    borderRadius: '8px',
+    boxShadow: 'none',
+    color: '#9DE5FF',
+    padding: '8px',
+    marginBottom: '16px',
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#9DE5FF',
+  }),
+  menu: (provided) => ({
+    ...provided,
+    backgroundColor: '#4A4A4A',
+    borderRadius: '8px',
+    marginTop: '4px',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#666666' : '#4A4A4A',
+    color: '#9DE5FF',
+    padding: '12px',
+  }),
+};
+
+
+export default function Form() {
+  const { register, handleSubmit, control, watch } = useForm();
+  const [vramResult, setVramResult] = useState(null);
+
+  const onSubmit = (data) => {
+    if (data.paramCount && data.batchSize && data.inputSize && data.weightsPrecision && data.gradientsPrecision && data.optimizer) {
+      const result = calculateTotalMemory(
+        data.paramCount,
+        data.batchSize,
+        data.inputSize,
+        data.weightsPrecision.value,
+        data.gradientsPrecision.value,
+        data.training,
+        data.optimizer.value,
+        data.summary, // Add this if you include summary in the form
+        data.library   // Add this if you include library in the form
+      );
+      setVramResult(result);
+    } else {
+      alert('Please fill in all fields before calculating VRAM.');
+    }
+  };
+
+  return (
+ <form className="formContainer" onSubmit={handleSubmit(onSubmit)}>
+      <div className="formRow">
+        <div className="formField">
+          <label>
+            Parameter count
+            <span className="tooltip-trigger" data-tooltip-id="param-count-tooltip">?</span>
+          </label>
+          <input type="text" {...register('paramCount')} placeholder="e.g., 1000000" />
+          <Tooltip id="param-count-tooltip" place="top" effect="solid">
+            The total number of trainable parameters in your model. For example, a small model might have 1,000,000 parameters.
+          </Tooltip>
+        </div>
+        <div className="formField">
+          <label>
+            Input shape
+            <span className="tooltip-trigger" data-tooltip-id="input-size-tooltip">?</span>
+          </label>
+          <input type="text" {...register('inputSize')} placeholder="e.g., [224,224,3]" />
+          <Tooltip id="input-size-tooltip" place="top" effect="solid">
+            The dimensions of a single input to your model. For example, [224,224,3] for a 224x224 RGB image.
+          </Tooltip>
+        </div>
+      </div>
+      <div className="formRow">
+        <div className="formField">
+          <label>
+            Batch size
+            <span className="tooltip-trigger" data-tooltip-id="batch-size-tooltip">?</span>
+          </label>
+          <input type="text" {...register('batchSize')} placeholder="e.g., 32" />
+          <Tooltip id="batch-size-tooltip" place="top" effect="solid">
+            The number of samples processed in one forward/backward pass. Common values are 32, 64, or 128.
+          </Tooltip>
+        </div>
+        <div className="formField checkboxField">
+          <label>
+            <input type="checkbox" {...register('training')} />
+            Training
+            <span className="tooltip-trigger" data-tooltip-id="training-tooltip">?</span>
+          </label>
+          <Tooltip id="training-tooltip" place="top" effect="solid">
+            Check if you're training the model. Leave unchecked for inference only.
+          </Tooltip>
+        </div>
+      </div>
+      <div className="formRow">
+      <div className="formField">
+          <label>
+            Weights precision
+            <span className="tooltip-trigger" data-tooltip-id="weights-precision-tooltip">?</span>
+          </label>
+          <Controller
+            name="weightsPrecision"
+            control={control}
+            defaultValue={{ value: 'float32', label: 'Float32' }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={[
+                  { value: 'float64', label: 'Float64' },
+                  { value: 'float32', label: 'Float32' },
+                  { value: 'float16', label: 'Float16' },
+                  { value: 'float8', label: 'Float8' },
+                ]}
+                styles={customStyles}
+              />
+            )}
+          />
+          <Tooltip id="weights-precision-tooltip" place="top" effect="solid">
+            The numerical precision used for storing model weights
+          </Tooltip>
+        </div>
+        <div className="formField">
+          <label>
+            Gradients Precision
+            <span className="tooltip-trigger" data-tooltip-id="gradients-precision-tooltip">?</span>
+          </label>
+          <Controller
+            name="gradientsPrecision"
+            control={control}
+            defaultValue={{ value: 'float32', label: 'Float32' }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={[
+                  { value: 'float64', label: 'Float64' },
+                  { value: 'float32', label: 'Float32' },
+                  { value: 'float16', label: 'Float16' },
+                  { value: 'float8', label: 'Float8' },
+                ]}
+                styles={customStyles}
+              />
+            )}
+          />
+          <Tooltip id="gradients-precision-tooltip" place="top" effect="solid">
+            The numerical precision used for storing gradients during training
+          </Tooltip>
+        </div>
+      </div>
+      <div className="formRow">
+      <div className="formField">
+          <label>
+            Optimizer
+            <span className="tooltip-trigger" data-tooltip-id="optimizer-tooltip">?</span>
+          </label>
+          <Controller
+            name="optimizer"
+            control={control}
+            defaultValue={{ value: 'adam', label: 'Adam' }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={[
+                  { value: 'adam', label: 'Adam' },
+                  { value: 'sgd', label: 'SGD' },
+                  { value: 'rmsprop', label: 'RMSprop' },
+                  { value: 'adagrad', label: 'Adagrad' },
+                ]}
+                styles={customStyles}
+              />
+            )}
+          />
+          <Tooltip id="optimizer-tooltip" place="top" effect="solid">
+            The optimization algorithm used for training the model
+          </Tooltip>
+        </div>
+      </div>
+
+      {/* Calculate VRAM Button */}
+      <div className="formRow">
+        <CalculateButton onClick={handleSubmit(onSubmit)} />
+      </div>
+
+      {vramResult && <VRAMResult vram={vramResult} />}
+    </form>
+  );
+}
+
+
+.\src\Components\Header.jsx
+
+import '../styles/Header.css';
+
+export default function Header({ activePage, onNavClick }) {
+  return (
+    <header className='header'>
+      <div className="headerContent">
+        <h1 className="headerTitle">How much VRAM will your model need?</h1>
+        <nav className="headerNav">
+          <button 
+            className={`navButton ${activePage === 'home' ? 'active' : ''}`}
+            onClick={() => onNavClick('home')}
+          >
+            Home
+          </button>
+          <button 
+            className={`navButton ${activePage === 'authors' ? 'active' : ''}`}
+            onClick={() => onNavClick('authors')}
+          >
+            Authors
+          </button>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+.\src\Components\ModelSummary.jsx
+
+import React, { useState } from 'react';
+import '../styles/ModelSummary.css';
+import Select from 'react-select';
+import { useForm, Controller } from 'react-hook-form';
+import calculateTotalMemory from '../scripts/modelMemoryCalculation';
+import CalculateButton from './CalculateButton';
+import VRAMResult from './VRAMResult';
+import { Tooltip } from 'react-tooltip';
+
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    backgroundColor: 'transparent',
+    border: '1px solid #9DE5FF',
+    borderRadius: '8px',
+    boxShadow: 'none',
+    color: '#9DE5FF',
+    padding: '8px',
+    marginBottom: '16px',
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#9DE5FF',
+  }),
+  menu: (provided) => ({
+    ...provided,
+    backgroundColor: '#4A4A4A',
+    borderRadius: '8px',
+    marginTop: '4px',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#666666' : '#4A4A4A',
+    color: '#9DE5FF',
+    padding: '12px',
+  }),
+};
+
+const libraryOptions = [
+  { value: 'pytorch', label: 'PyTorch' },
+  { value: 'tensorflow', label: 'TensorFlow' },
+  { value: 'keras', label: 'Keras' },
+  { value: 'jax', label: 'JAX' },
+];
+
+export default function ModelSummary() {
+  const { register, handleSubmit, control } = useForm();
+  const [vramResult, setVramResult] = useState(null);
+
+  const onSubmit = (data) => {
+    console.log(data);
+
+    if (data.summary && data.library && data.inputSize && data.batchSize && data.weightsPrecision && data.gradientsPrecision && data.optimizer) {
+      const result = calculateTotalMemory(
+        data.paramCount,
+        data.batchSize,
+        data.inputSize,
+        data.weightsPrecision.value,
+        data.gradientsPrecision.value,
+        data.training,
+        data.optimizer.value,
+        data.summary,
+        data.library.value
+      );
+      setVramResult(result);
+    } else {
+      alert('Please fill in all fields before calculating VRAM.');
+    }
+  };
+
+  return (
+    <form className="modelSummaryForm" onSubmit={handleSubmit(onSubmit)}>
+     <div className="formGrid">
+        <div className="formField fullWidth">
+          <label>Model Summary          
+            <span className="tooltip-trigger" data-tooltip-id="summary-tooltip">?</span>
+          </label>
+          <textarea 
+            {...register('summary')} 
+            rows="10" 
+            cols="50" 
+            placeholder="Paste your model summary here. For example:
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d (Conv2D)              (None, 222, 222, 32)      896       
+max_pooling2d (MaxPooling2D) (None, 111, 111, 32)      0         
+flatten (Flatten)            (None, 393248)            0         
+dense (Dense)                (None, 64)                25167936  
+dense_1 (Dense)              (None, 10)                650       
+=================================================================
+Total params: 25,169,482
+Trainable params: 25,169,482
+Non-trainable params: 0"
+          />
+          <Tooltip id="summary-tooltip" place="top" effect="solid">
+            Paste the model summary from your framework. For PyTorch, use torchsummary. For TensorFlow/Keras, use model.summary().
+          </Tooltip>
+        </div>
+        <div className="formField">
+          <label>Library
+          <span className="tooltip-trigger" data-tooltip-id="library-tooltip">?</span>
+          </label>
+          <Controller
+            name="library"
+            control={control}
+            defaultValue={{ value: 'pytorch', label: 'PyTorch' }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={libraryOptions}
+                styles={customStyles}
+              />
+            )}
+          />
+            <Tooltip id="library-tooltip" place="top" effect="solid">
+            Choose the library format that your summary has.
+          </Tooltip>
+        </div>
+        <div className="formField">
+          <label>
+            Input shape
+            <span className="tooltip-trigger" data-tooltip-id="input-size-tooltip">?</span>
+          </label>
+          <input type="text" {...register('inputSize')} placeholder="e.g., [224,224,3]" />
+          <Tooltip id="input-size-tooltip" place="top" effect="solid">
+            The dimensions of a single input to your model. For example, [224,224,3] for a 224x224 RGB image.
+          </Tooltip>
+        </div>
+        <div className="formField">
+          <label>
+            Batch size
+            <span className="tooltip-trigger" data-tooltip-id="batch-size-tooltip">?</span>
+          </label>
+          <input type="text" {...register('batchSize')} placeholder="e.g., 32" />
+          <Tooltip id="batch-size-tooltip" place="top" effect="solid">
+            The number of samples processed in one forward/backward pass. Common values are 32, 64, or 128.
+          </Tooltip>
+        </div>
+        <div className="formField">
+          <label>
+            Weights precision
+            <span className="tooltip-trigger" data-tooltip-id="weights-precision-tooltip">?</span>
+          </label>
+          <Controller
+            name="weightsPrecision"
+            control={control}
+            defaultValue={{ value: 'float32', label: 'Float32' }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={[
+                  { value: 'float64', label: 'Float64' },
+                  { value: 'float32', label: 'Float32' },
+                  { value: 'float16', label: 'Float16' },
+                  { value: 'float8', label: 'Float8' },
+                ]}
+                styles={customStyles}
+              />
+            )}
+          />
+          <Tooltip id="weights-precision-tooltip" place="top" effect="solid">
+            The numerical precision used for storing model weights
+          </Tooltip>
+        </div>
+        <div className="formField">
+          <label>
+            Gradients Precision
+            <span className="tooltip-trigger" data-tooltip-id="gradients-precision-tooltip">?</span>
+          </label>
+          <Controller
+            name="gradientsPrecision"
+            control={control}
+            defaultValue={{ value: 'float32', label: 'Float32' }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={[
+                  { value: 'float64', label: 'Float64' },
+                  { value: 'float32', label: 'Float32' },
+                  { value: 'float16', label: 'Float16' },
+                  { value: 'float8', label: 'Float8' },
+                ]}
+                styles={customStyles}
+              />
+            )}
+          />
+          <Tooltip id="gradients-precision-tooltip" place="top" effect="solid">
+            The numerical precision used for storing gradients during training
+          </Tooltip>
+        </div>
+        <div className="formField">
+          <label>
+            Optimizer
+            <span className="tooltip-trigger" data-tooltip-id="optimizer-tooltip">?</span>
+          </label>
+          <Controller
+            name="optimizer"
+            control={control}
+            defaultValue={{ value: 'adam', label: 'Adam' }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={[
+                  { value: 'adam', label: 'Adam' },
+                  { value: 'sgd', label: 'SGD' },
+                  { value: 'rmsprop', label: 'RMSprop' },
+                  { value: 'adagrad', label: 'Adagrad' },
+                ]}
+                styles={customStyles}
+              />
+            )}
+          />
+          <Tooltip id="optimizer-tooltip" place="top" effect="solid">
+            The optimization algorithm used for training the model
+          </Tooltip>
+        </div>
+        <div className="formField checkboxField">
+          <label>
+            <input type="checkbox" {...register('training')} />
+            Training
+          </label>
+        </div>
+      </div>
+      <div className="formActions">
+        <CalculateButton onClick={handleSubmit(onSubmit)} />
+      </div>
+
+      {vramResult && <VRAMResult vram={vramResult} />}
+    </form>
+  );
+}
+
+.\src\Components\Preset.jsx
+
+export default function Preset() {
+    return (
+        <div className='preset'>
+            <h2>Select a preset</h2>
+            <hr />
+            <button>Preset 1</button>
+            <button>Preset 2</button>
+            <button>Preset 3</button>
+        </div>
+    )
+}
+
+.\src\Components\VRAMResult.jsx
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import '../styles/VRAMResult.css';
+
+const VRAMResult = ({ vram }) => {
+  const roundedVRAM = parseFloat(vram).toFixed(4);
+
+  return (
+    <motion.div 
+      className="vram-result"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <h3>Estimated VRAM</h3>
+      <div className="vram-value">
+        <span className="vram-number">{roundedVRAM}</span>
+        <span className="vram-unit">GB</span>
+      </div>
+      <p className="vram-description">This is the approximate amount of VRAM required for your model.</p>
+    </motion.div>
+  );
+};
+
+export default VRAMResult;
+
+.\src\styles\App.css
+
+:root {
+    --border-radius-btns: 14px;
+    --btn-pressed: #fc7e68;
+    --btn-hovered: #1F4678;
+    --btn-default: #A2AAB3;
+    --white-font: #F0ECE2;
+    --black-font: #292931;
+    --font-size-panel: clamp(1.2rem, 5vw, 2.5rem);
+    --basic-btn-color: #80AFEB;
+    --custom-btn-color: #80AFEB;
+  }
+  
+  * {
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #292931;
+    font-size: 16px;
+  }
+  
+  .app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding-top: 80px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .contentSection {
+    width: 100%;
+    max-width: 800px;
+    margin: 1rem auto;
+    padding: 1rem;
+    background-color: #3a3a43;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .mainBtns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .titleContainer {
+    width: 100%;
+    text-align: center;
+    background-color: var(--black-font);
+    padding: 0.5rem;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .title {
+    color: var(--white-font);
+    font-size: var(--font-size-panel);
+    font-weight: bold;
+  }
+  
+  .mainBtn {
+    flex: 1 1 250px;
+    max-width: 400px;
+    aspect-ratio: 16 / 9;
+    border: none;
+    border-radius: var(--border-radius-btns);
+    color: var(--black-font);
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+  }
+  
+  .mainBtn:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .basicBtn {
+    background-color: var(--basic-btn-color);
+  }
+  
+  .modelSummaryBtn {
+    background-color: var(--custom-btn-color);
+  }
+  
+  .buildModelBtn {
+    background-color: var(--btn-default);
+  }
+  
+  .selected {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  .disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .basicForm,
+  .modelSummaryForm {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0.5rem;
+    background-color: #3a3a43;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  @media screen and (max-width: 768px) {
+    body {
+      font-size: 14px;
+    }
+  
+    .mainBtns {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .mainBtn {
+      width: 100%;
+      max-width: none;
+      font-size: 0.8rem;
+    }
+  
+    .title {
+      font-size: clamp(1rem, 4vw, 1.5rem);
+    }
+  
+    .contentSection {
+      padding: 0.5rem;
+    }
+  }
+
+.\src\styles\Authors.css
+
+.authors {
+    color: var(--white-font);
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .authors h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+  }
+  
+  .authorGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  .authorCard {
+    background-color: #4a4a53;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .authorCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .authorCard h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+  
+  .authorCard p {
+    color: #9DE5FF;
+    margin-bottom: 1rem;
+  }
+  
+  .socialLinks {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .socialLinks a {
+    color: #80AFEB;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: bold;
+  }
+  
+  .socialLinks a:hover {
+    color: #54FFAD;
+  }
+
+.\src\styles\Basic.css
+
+.mainBtns {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #111113; /* Updated shade to fit the color palette */
+    border-radius: 10px;
+}
+
+.mainBtn {
+    width: 450px;
+    height: 250px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #54FFAD; /* Button color from the image */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s ease, background-color 0.5s ease;
+}
+
+.mainBtn.selected {
+    background-color: #9ac2f6; /* Slightly darker shade when selected */
+}
+
+.buttonContent {
+    text-align: center;
+    color: #111113;
+}
+
+.icon {
+    font-size: 2rem; /* Adjust icon size */
+    margin-bottom: 10px;
+}
+
+.textContainer {
+    color: #111113;
+}
+
+.buttonTextStyle {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.buttonDescription {
+    font-size: 0.9rem;
+    color: #4e4e50;
+}
+
+.app {
+    background-color: #111113; /* Page background color */
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.formContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #3a3a43;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    gap: 20px;
+}
+
+
+.rowForm {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px; /* Adjust the spacing as needed */
+}
+
+.inputForm {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+
+.selectForm .react-select__control {
+    border-color: #ccc;
+    color: #111113;
+}
+
+.selectForm .react-select__single-value {
+    color: #9DE5FF; /* Color for the selected option */
+}
+
+.checkboxLabel {
+    font-size: 1rem;
+    color: #9DE5FF;
+}
+
+.checkboxForm {
+    margin-right: 10px;
+}
+
+.buttonForm {
+    width: 100%;
+    background-color: #111113;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.buttonForm:hover {
+    background-color: #333;
+}
+
+@media(max-width: 768px) {
+    .formContainer {
+        grid-template-columns: 1fr;
+    }
+}
+
+.\src\styles\CalculateButton.css
+
+.calculate-button {
+    background-color: #54FFAD;
+    color: #292931;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+  
+  .calculate-button:hover {
+    background-color: #3CCF8E;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .button-text {
+    margin-right: 10px;
+  }
+  
+  .button-icon {
+    font-size: 24px;
+  }
+  
+  @media (max-width: 768px) {
+    .calculate-button {
+      font-size: 16px;
+      padding: 10px 20px;
+    }
+  }
+
+.\src\styles\Form.css
+
+.formContainer {
+  background-color: #3a3a43;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.formField label {
+  color: white;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.formField input[type="text"],
+.formField input[type="number"] {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #9DE5FF;
+  border-radius: 8px;
+  color: #9DE5FF;
+  font-size: 0.875rem;
+}
+
+.checkboxField {
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkboxField label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checkboxField input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.625rem;
+  appearance: none;
+  border: 2px solid #9DE5FF;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.checkboxField input[type="checkbox"]:checked {
+  background-color: #9DE5FF;
+}
+
+.formActions {
+  margin-top: 1.25rem;
+}
+
+.tooltip-trigger {
+  margin-left: 0.3125rem;
+  cursor: help;
+  color: #9DE5FF;
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.react-tooltip {
+  background-color: #4A4A4A !important;
+  color: #9DE5FF !important;
+  border: 1px solid #9DE5FF !important;
+  font-size: 0.75rem !important;
+  max-width: 200px !important;
+}
+
+@media (max-width: 600px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formField label {
+    font-size: 0.875rem;
+  }
+
+  .formField input[type="text"],
+  .formField input[type="number"] {
+    font-size: 0.8125rem;
+  }
+}
+
+.\src\styles\Header.css
+
+.header {
+  background-color: #292931;
+  padding: 1rem 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.headerTitle {
+  font-weight: bold;
+  color: #9DE5FF;
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.headerNav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navButton {
+  background: none;
+  border: none;
+  color: #F0ECE2;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+}
+
+.navButton:hover,
+.navButton.active {
+  background-color: #3a3a43;
+  color: #9DE5FF;
+}
+
+@media (max-width: 768px) {
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerNav {
+    margin-top: 0.5rem;
+  }
+
+  .headerTitle {
+    font-size: 1rem;
+  }
+
+  .navButton {
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+.\src\styles\ModelSummary.css
+
+.modelSummaryForm {
+    display: flex;
+    flex-direction: column;
+    background-color: #3a3a43;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .formGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .formField {
+    margin-bottom: 1.25rem;
+  }
+  
+  .formField.fullWidth {
+    grid-column: 1 / -1;
+  }
+  
+  .formField label {
+    display: block;
+    color: white;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .formField textarea,
+  .formField input[type="text"] {
+    width: 100%;
+    padding: 0.625rem;
+    background-color: transparent;
+    border: 1px solid #9DE5FF;
+    border-radius: 8px;
+    color: #9DE5FF;
+    font-size: 0.875rem;
+  }
+  
+  .formField textarea {
+    height: 150px;
+    resize: vertical;
+  }
+  
+  .checkboxField {
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkboxField label {
+    margin-right: 0.625rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkboxField input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.625rem;
+    appearance: none;
+    border: 2px solid #9DE5FF;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .checkboxField input[type="checkbox"]:checked {
+    background-color: #9DE5FF;
+  }
+  
+  .formActions {
+    margin-top: 1.25rem;
+  }
+  
+  @media (max-width: 600px) {
+    .formGrid {
+      grid-template-columns: 1fr;
+    }
+  
+    .formField label {
+      font-size: 0.875rem;
+    }
+  
+    .formField textarea,
+    .formField input[type="text"] {
+      font-size: 0.8125rem;
+    }
+  }
+
+.\src\styles\VRAMResult.css
+
+.vram-result {
+    background-color: #3a3a43;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .vram-result h3 {
+    color: #54FFAD;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .vram-value {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  
+  .vram-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #9DE5FF;
+  }
+  
+  .vram-unit {
+    font-size: 1.5rem;
+    color: #9DE5FF;
+    margin-left: 5px;
+  }
+  
+  .vram-description {
+    color: #A2AAB3;
+    font-size: 0.9rem;
+  }
+
+    

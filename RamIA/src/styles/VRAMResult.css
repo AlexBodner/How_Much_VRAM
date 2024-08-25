@@ -36,3 +36,17 @@
     color: #A2AAB3;
     font-size: 0.9rem;
   }
+
+  @media (max-width: 480px) {
+    .vram-number {
+      font-size: 2.5rem;
+    }
+  
+    .vram-unit {
+      font-size: 1.2rem;
+    }
+  
+    .vram-description {
+      font-size: 0.8rem;
+    }
+  }
