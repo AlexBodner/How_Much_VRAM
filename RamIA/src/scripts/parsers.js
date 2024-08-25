@@ -2,7 +2,6 @@ export  function parsePytorchSummary(summaryStr) {
     const layerInfo = [];
     let capture = false;
     const lines = summaryStr.split("\n");
-    console.log("parser rrr")
     lines.forEach(line => {
         console.log("line"+ line);
         if (line.includes("Layer (type)")) {
@@ -28,40 +27,43 @@ export  function parsePytorchSummary(summaryStr) {
     return layerInfo;
 }
 
-function parseTensorflowSummary(summaryStr) {
+export function parseTensorflowSummary(summaryStr) {
     const layerInfo = [];
     let capture = false;
-    const lines = summaryStr.split("\n");
+    const lines = summaryStr.split('\n');
 
-    lines.forEach(line => {
-        if (line.includes("Layer (type)")) {
+    for (const line of lines) {
+        if (line.includes('Layer (type)')) {
             capture = true;
-            return;
+            continue;
         }
-        if (line.includes("Total params")) {
-            capture = false;
+        if (line.includes('Total params')) {
+            break;
         }
 
         if (capture) {
-            const outShapeMatches = line.match(/\(.*?\)/);
-            if (outShapeMatches) {
-                let outShape = outShapeMatches[outShapeMatches.length - 1];
-                outShape = outShape.slice(outShape.lastIndexOf('(') + 1, -1);  // Remove parentheses
+            const parts = line.split('│').filter(part => part.trim());
+            if (parts.length >= 3   ) {
+                const outShapeStr = parts[1].trim();
+                const paramsStr = parts[2].trim().replace(',', '').replace(',', ''); //Seem to be 2 different commas LOL
+                console.log("str"+paramsStr," "+parseInt(paramsStr))
+                const outShape = outShapeStr.match(/\((.*?)\)/);
+                const params = parseInt(paramsStr.match(/\d+/)?.[0] || '0');
 
-                const paramsMatch = line.split(" ").slice(-1)[0].replace(/,/g, "").match(/\d+/);
-                const params = paramsMatch ? parseInt(paramsMatch[0], 10) : 0;
-
-                let outSize = 1;
-                outShape.split(",").forEach(dim => {
-                    if (!dim.trim().includes('None')) {
-                        outSize *= Math.abs(parseInt(dim.trim(), 10));
+                if (outShape) {
+                    const dimensions = outShape[1].split(',');
+                    let outSize = 1;
+                    for (const dim of dimensions) {
+                        const stripped = dim.trim();
+                        if (stripped !== 'None' && !isNaN(stripped)) {
+                            outSize *= Math.abs(parseInt(stripped));
+                        }
                     }
-                });
-
-                layerInfo.push([outSize, params]);
+                    layerInfo.push([outSize, params]);
+                }
             }
         }
-    });
+    }
 
     return layerInfo;
 }

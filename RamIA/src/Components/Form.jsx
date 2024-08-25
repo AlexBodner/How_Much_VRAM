@@ -10,9 +10,12 @@ const customStyles = {
   control: (provided) => ({
     ...provided,
     backgroundColor: 'transparent',
-    border: 'none',
+    border: '1px solid #9DE5FF',
+    borderRadius: '8px',
     boxShadow: 'none',
     color: '#9DE5FF',
+    padding: '8px',
+    marginBottom: '16px',
   }),
   singleValue: (provided) => ({
     ...provided,
@@ -21,13 +24,17 @@ const customStyles = {
   menu: (provided) => ({
     ...provided,
     backgroundColor: '#4A4A4A',
+    borderRadius: '8px',
+    marginTop: '4px',
   }),
   option: (provided, state) => ({
     ...provided,
     backgroundColor: state.isSelected ? '#666666' : '#4A4A4A',
     color: '#9DE5FF',
+    padding: '12px',
   }),
 };
+
 
 export default function Form() {
   const { register, handleSubmit, control, watch } = useForm();

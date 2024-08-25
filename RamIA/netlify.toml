@@ -1,4 +1,9 @@
 [build]
-command = "npm run build"
-publish = ".vue"
+base = "RamIA"    # Set the base directory to the subfolder
+command = "npm run build"  # The command to build your Vite project
+publish = "dist"  # The directory to publish, relative to the base directory
 
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200

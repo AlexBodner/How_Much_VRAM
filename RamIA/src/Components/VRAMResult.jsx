@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import '../styles/VRAMResult.css';
 
 const VRAMResult = ({ vram }) => {
-  const roundedVRAM = parseFloat(vram).toFixed(3);
+  const roundedVRAM = parseFloat(vram).toFixed(4);
 
   return (
     <motion.div 

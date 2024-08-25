@@ -22,7 +22,7 @@ function rmspropUsage(gradientsMem) {
     return gradientsMem;
 }
 
-const dict_mapper = {
+export const dict_mapper = {
     "adam": adamMemUsage,
     "sgd": sgdMemUsage,
     "momentum": momentumUsage,
@@ -30,5 +30,3 @@ const dict_mapper = {
     "adadelta": adadeltaUsage,
     "rmsprop": rmspropUsage
 };
-
-export default dict_mapper;

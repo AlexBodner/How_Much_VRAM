@@ -4,7 +4,7 @@ export default function Header({ activePage, onNavClick }) {
   return (
     <header className='header'>
       <div className="headerContent">
-        <h1 className="headerTitle">How much VRam?</h1>
+        <h1 className="headerTitle">How much VRAM will your model need?</h1>
         <nav className="headerNav">
           <button 
             className={`navButton ${activePage === 'home' ? 'active' : ''}`}

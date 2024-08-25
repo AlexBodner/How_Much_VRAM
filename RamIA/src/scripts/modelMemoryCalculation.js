@@ -1,6 +1,8 @@
 //import { dict_mapper } from './optimizersMemUsage';
 import { act } from 'react';
-import { parsePytorchSummary } from './parsers';
+import { parsePytorchSummary,parseTensorflowSummary } from './parsers';
+import {dict_mapper} from './optimizersMemUsage';
+
 //const parsePytorchSummary = ( import('./parsers.js')).default;
 
 function bitsToGB(b) {
@@ -33,36 +35,46 @@ function calculateInputUsage(inputShape, batchSize) {
     }
     
 }
+function extractSummaryInfo(lib_func,summary){
+    let parameterCount = 0;
+    let activationsMem = 0;
+
+    let outsParams = lib_func(summary);
+    console.log(outsParams)
+    outsParams.forEach(([outShape, params]) => {
+        activationsMem += outShape;
+        parameterCount += params;
+    });
+    console.log(parameterCount+ " "+activationsMem)
+    return [parameterCount,activationsMem]
+}
 
 export default function calculateTotalMemory(parameterCount, batchSize, inputShape, weightPrecisionString, gradientPrecisionString, training, optimizer, summary, library) {
-    let activationsMem = 0;
-    console.log(gradientPrecisionString)
     let gradientPrecision = gradientPrecisionString.substring(5, gradientPrecisionString.length);
     let weightPrecision = weightPrecisionString.substring(5, weightPrecisionString.length);
-
+    let activationsMem = 0
+    let out = []
     if (summary !== undefined && library !== undefined) {
-        console.log("entra a parser"+library);
+        console.log("entra a parser "+library);
         if (library === "pytorch") {
-            let p = 0;
-            let outsParams = parsePytorchSummary(summary);
-            console.log(outsParams)
-            outsParams.forEach(([outShape, params]) => {
-                activationsMem += outShape;
-                p += params;
-            });
-            parameterCount = p;
+            out =  extractSummaryInfo(parsePytorchSummary,summary)
+
+
         } else if (library === "tensorflow") {
-            // Handle TensorFlow case
+            out =  extractSummaryInfo(parseTensorflowSummary,summary)
+            console.log(out)
         } else if (library === "jax") {
             // Handle JAX case
         }
+        parameterCount = out[0]
+        activationsMem = out[1]
     }
+    console.log(parameterCount+ " "+activationsMem)
 
     activationsMem *= batchSize * gradientPrecision;
     activationsMem = bitsToGB(activationsMem)
     let input_mem = bitsToGB(calculateInputUsage(inputShape, batchSize))*weightPrecision;
     let optimizerMem = dict_mapper[optimizer](parameterCount);
-    console.log(weightPrecision)
 
     var parameters_mem = bitsToGB(parameterCount)*weightPrecision;
     
@@ -70,43 +82,9 @@ export default function calculateTotalMemory(parameterCount, batchSize, inputSha
 
     let totalGB = parameters_mem + input_mem+ gradientsMem + activationsMem;
     console.log(totalGB)
-    return totalGB + 0.2 * totalGB;
+    return totalGB + 0.2 * totalGB + 0.2;//torch for example seems to use 200 MB independent of the model
 }
 
-//OTRO SCRIPT
-
-function adamMemUsage(gradientsMem) {
-    return gradientsMem * 2;
-}
-
-function sgdMemUsage(gradientsMem) {
-    return 0;
-}
-
-function momentumUsage(gradientsMem) {
-    return gradientsMem; // Duplicates the usage
-}
-
-function adagradUsage(gradientsMem) {
-    return gradientsMem;
-}
-
-function adadeltaUsage(gradientsMem) {
-    return gradientsMem;
-}
-
-function rmspropUsage(gradientsMem) {
-    return gradientsMem;
-}
-
-const dict_mapper = {
-    "adam": adamMemUsage,
-    "sgd": sgdMemUsage,
-    "momentum": momentumUsage,
-    "adagrad": adagradUsage,
-    "adadelta": adadeltaUsage,
-    "rmsprop": rmspropUsage
-};
 
 
 //OTRO SCRIPT

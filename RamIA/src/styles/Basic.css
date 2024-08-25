@@ -22,7 +22,7 @@
 }
 
 .mainBtn.selected {
-    background-color: #3CCF8E; /* Slightly darker shade when selected */
+    background-color: #9ac2f6; /* Slightly darker shade when selected */
 }
 
 .buttonContent {
@@ -61,7 +61,7 @@
 .formContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background-color: #7A858E;
+    background-color: #3a3a43;
     padding: 20px;
     border-radius: 10px;
     width: 100%;

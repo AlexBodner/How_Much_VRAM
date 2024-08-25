@@ -83,7 +83,6 @@ export default function ModelSummary() {
         <div className="formField">
           <label>Library
           <span className="tooltip-trigger" data-tooltip-id="library-tooltip">?</span>
-
           </label>
           <Controller
             name="library"
@@ -97,7 +96,7 @@ export default function ModelSummary() {
               />
             )}
           />
-                    <Tooltip id="library-tooltip" place="top" effect="solid">
+          <Tooltip id="library-tooltip" place="top" effect="solid">
             Choose the library format that your summary has.
           </Tooltip>
         </div>
