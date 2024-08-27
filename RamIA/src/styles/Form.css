@@ -1,10 +1,15 @@
+.formWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
+
 .formContainer {
   background-color: #3a3a43;
   padding: 1rem;
   border-radius: 10px;
   width: 100%;
-  max-width: 800px;
-  margin: auto;
 }
 
 .formGrid {
@@ -91,6 +96,25 @@
   margin-top: 0.25rem;
 }
 
+.tutorial-button {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background-color: #80AFEB;
+  color: #292931;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+}
+
+.tutorial-button:hover {
+  background-color: #9DE5FF;
+}
+
 @media (max-width: 600px) {
   .formGrid {
     grid-template-columns: 1fr;
@@ -128,5 +152,11 @@
 
   .formActions {
     margin-top: 0.75rem;
+  }
+
+  .tutorial-button {
+    top: -35px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
   }
 }
