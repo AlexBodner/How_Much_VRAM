@@ -69,14 +69,14 @@ export default function ModelSummary() {
   };
 
   return (
-    <form className="modelSummaryForm" onSubmit={handleSubmit(onSubmit)}>
-     <div className="formGrid">
+<form className="modelSummaryForm" onSubmit={handleSubmit(onSubmit)}>
+      <div className="formGrid">
         <div className="formField fullWidth">
           <label>Model Summary          
             <span className="tooltip-trigger" data-tooltip-id="summary-tooltip">?</span>
           </label>
           <textarea 
-            {...register('summary')} 
+            {...register('summary', { required: "Model summary is required" })}
             rows="10" 
             cols="50" 
             placeholder="Paste your model summary here. For example:
@@ -92,6 +92,7 @@ Total params: 25,169,482
 Trainable params: 25,169,482
 Non-trainable params: 0"
           />
+          {errors.summary && <span className="error-message">{errors.summary.message}</span>}
           <Tooltip id="summary-tooltip" place="top" effect="solid">
             Paste the model summary from your framework. For PyTorch, use torchsummary. For TensorFlow/Keras, use model.summary().
           </Tooltip>
@@ -121,7 +122,12 @@ Non-trainable params: 0"
             Input shape
             <span className="tooltip-trigger" data-tooltip-id="input-size-tooltip">?</span>
           </label>
-          <input type="text" {...register('inputSize')} placeholder="e.g., [224,224,3]" />
+          <input
+            type="text"
+            {...register('inputSize', { required: "Input shape is required" })}
+            placeholder="e.g., [224,224,3]"
+          />
+          {errors.inputSize && <span className="error-message">{errors.inputSize.message}</span>}
           <Tooltip id="input-size-tooltip" place="top" effect="solid">
             The dimensions of a single input to your model. For example, [224,224,3] for a 224x224 RGB image.
           </Tooltip>
@@ -131,7 +137,8 @@ Non-trainable params: 0"
             Batch size
             <span className="tooltip-trigger" data-tooltip-id="batch-size-tooltip">?</span>
           </label>
-          <input type="text" {...register('batchSize')} placeholder="e.g., 32" />
+          <input type="text" {...register('batchSize',{ required: "Batch size is required" })} placeholder="e.g., 32" />
+          {errors.batchSize && <span className="error-message">{errors.batchSize.message}</span>}  
           <Tooltip id="batch-size-tooltip" place="top" effect="solid">
             The number of samples processed in one forward/backward pass. Common values are 32, 64, or 128.
           </Tooltip>

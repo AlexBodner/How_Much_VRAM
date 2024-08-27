@@ -98,7 +98,9 @@ export default function Form() {
             Batch size
             <span className="tooltip-trigger" data-tooltip-id="batch-size-tooltip">?</span>
           </label>
-          <input type="text" {...register('batchSize')} placeholder="e.g., 32" />
+          <input type="text" {...register('batchSize',{ required: "Batch size is required" })} placeholder="e.g., 32" />
+          {errors.batchSize && <span className="error-message">{errors.batchSize.message}</span>}
+
           <Tooltip id="batch-size-tooltip" place="top" effect="solid">
             The number of samples processed in one forward/backward pass. Common values are 32, 64, or 128.
           </Tooltip>
