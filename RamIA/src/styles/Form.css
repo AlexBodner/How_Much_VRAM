@@ -85,6 +85,12 @@
   max-width: 200px !important;
 }
 
+.error-message {
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
 @media (max-width: 600px) {
   .formGrid {
     grid-template-columns: 1fr;
@@ -99,11 +105,8 @@
     font-size: 0.8125rem;
   }
 }
-@media (max-width: 480px) {
-  .formGrid {
-    grid-template-columns: 1fr;
-  }
 
+@media (max-width: 480px) {
   .formField {
     margin-bottom: 0.5rem;
   }
@@ -113,5 +116,9 @@
   .formField textarea {
     font-size: 16px; /* Prevents zoom on input focus on iOS */
     padding: 0.3rem;
+  }
+
+  .error-message {
+    font-size: 0.7rem;
   }
 }

@@ -44,7 +44,7 @@ const libraryOptions = [
 ];
 
 export default function ModelSummary() {
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control, formState: { errors } } = useForm();
   const [vramResult, setVramResult] = useState(null);
 
   const onSubmit = (data) => {

@@ -37,9 +37,8 @@ const customStyles = {
 
 
 export default function Form() {
-  const { register, handleSubmit, control, watch } = useForm();
+  const { register, handleSubmit, control, formState: { errors } } = useForm();
   const [vramResult, setVramResult] = useState(null);
-
   const onSubmit = (data) => {
     if (data.paramCount && data.batchSize && data.inputSize && data.weightsPrecision && data.gradientsPrecision && data.optimizer) {
       const result = calculateTotalMemory(
@@ -60,14 +59,19 @@ export default function Form() {
   };
 
   return (
- <form className="formContainer" onSubmit={handleSubmit(onSubmit)}>
+<form className="formContainer" onSubmit={handleSubmit(onSubmit)}>
       <div className="formRow">
         <div className="formField">
           <label>
             Parameter count
             <span className="tooltip-trigger" data-tooltip-id="param-count-tooltip">?</span>
           </label>
-          <input type="text" {...register('paramCount')} placeholder="e.g., 1000000" />
+          <input
+            type="text"
+            {...register('paramCount', { required: "Parameter count is required" })}
+            placeholder="e.g., 1000000"
+          />
+          {errors.paramCount && <span className="error-message">{errors.paramCount.message}</span>}
           <Tooltip id="param-count-tooltip" place="top" effect="solid">
             The total number of trainable parameters in your model. For example, a small model might have 1,000,000 parameters.
           </Tooltip>
@@ -77,7 +81,12 @@ export default function Form() {
             Input shape
             <span className="tooltip-trigger" data-tooltip-id="input-size-tooltip">?</span>
           </label>
-          <input type="text" {...register('inputSize')} placeholder="e.g., [224,224,3]" />
+          <input
+            type="text"
+            {...register('inputSize', { required: "Input shape is required" })}
+            placeholder="e.g., [224,224,3]"
+          />
+          {errors.inputSize && <span className="error-message">{errors.inputSize.message}</span>}
           <Tooltip id="input-size-tooltip" place="top" effect="solid">
             The dimensions of a single input to your model. For example, [224,224,3] for a 224x224 RGB image.
           </Tooltip>
