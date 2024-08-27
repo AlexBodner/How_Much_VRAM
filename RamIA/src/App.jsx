@@ -14,16 +14,22 @@ export default function Component() {
 
   const handleButtonClick = (type) => {
     setModelTypeSelected((currentType) => currentType === type ? 'none' : type);
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleNavClick = (page) => {
     setActivePage(page);
     setModelTypeSelected('none');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [modelTypeSelected, activePage]);
+    if (modelTypeSelected !== 'none' && contentRef.current) {
+      contentRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [modelTypeSelected]);
 
   return (
     <div className='app'>
