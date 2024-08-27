@@ -107,6 +107,10 @@
 }
 
 @media (max-width: 480px) {
+  .formContainer {
+    padding: 0.5rem;
+  }
+
   .formField {
     margin-bottom: 0.5rem;
   }
@@ -120,5 +124,9 @@
 
   .error-message {
     font-size: 0.7rem;
+  }
+
+  .formActions {
+    margin-top: 0.75rem;
   }
 }
