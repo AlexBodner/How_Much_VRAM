@@ -1,6 +1,8 @@
 import '../styles/Header.css';
 
 export default function Header({ activePage, onNavClick }) {
+  const githubUrl = "https://github.com/AlexBodner/How_Much_VRAM"; // Replace with your actual GitHub URL
+
   return (
     <header className='header'>
       <div className="headerContent">
@@ -18,6 +20,14 @@ export default function Header({ activePage, onNavClick }) {
           >
             Authors
           </button>
+          <a 
+            href={githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="navButton githubLink"
+          >
+            GitHub
+          </a>
         </nav>
       </div>
     </header>
