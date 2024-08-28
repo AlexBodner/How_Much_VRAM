@@ -17,7 +17,7 @@
 - [Collaborate](#Collaborate)
 
 - [License](#license)
-- 
+  
 - [Links](#links)
 
 ## Installation
