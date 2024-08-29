@@ -40,7 +40,6 @@ const customStyles = {
 const libraryOptions = [
   { value: 'pytorch', label: 'PyTorch' },
   { value: 'tensorflow', label: 'TensorFlow/Keras' },
-
 ];
 
 const tutorialSteps = [
@@ -87,9 +86,24 @@ const tutorialSteps = [
 ];
 
 export default function ModelSummary() {
-  const { register, handleSubmit, control, formState: { errors } } = useForm();
+  const { register, handleSubmit, control, formState: { errors }, setError, clearErrors } = useForm();
   const [vramResult, setVramResult] = useState(null);
   const [showTutorial, setShowTutorial] = useState(false);
+  const [warning, setWarning] = useState(null);
+
+  const validateNumeric = (value) => {
+    if (!/^\d*\.?\d+$/.test(value)) {
+      return 'Please enter a valid number';
+    }
+    return true;
+  };
+
+  const validateInputShape = (value) => {
+    if (!/^\d+$/.test(value) && !/^\[\s*\d+(?:\s*,\s*\d+)*\s*\]$/.test(value)) {
+      return 'Please enter a valid number or a list of numbers in square brackets (e.g., [224,224,3])';
+    }
+    return true;
+  };
 
   const onSubmit = (data) => {
     if (data.summary && data.library && data.inputSize && data.batchSize && data.weightsPrecision && data.gradientsPrecision && data.optimizer) {
@@ -104,6 +118,12 @@ export default function ModelSummary() {
         data.summary,
         data.library.value
       );
+      if (result=== 0) {
+        setWarning('No parameters were detected in the summary. Please check your input and try again.');
+      } else {
+        setWarning(null);
+      }
+
       setVramResult(result);
     } else {
       alert('Please fill in all fields before calculating VRAM.');
@@ -128,17 +148,29 @@ export default function ModelSummary() {
               rows="10" 
               cols="50" 
               placeholder="Paste your model summary here. For example:
-Layer (type)                 Output Shape              Param #   
-=================================================================
-conv2d (Conv2D)              (None, 222, 222, 32)      896       
-max_pooling2d (MaxPooling2D) (None, 111, 111, 32)      0         
-flatten (Flatten)            (None, 393248)            0         
-dense (Dense)                (None, 64)                25167936  
-dense_1 (Dense)              (None, 10)                650       
-=================================================================
-Total params: 25,169,482
-Trainable params: 25,169,482
-Non-trainable params: 0"
+----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1            [-1, 5, 28, 28]              50
+         MaxPool2d-2            [-1, 5, 14, 14]               0
+            Conv2d-3            [-1, 5, 14, 14]             230
+         MaxPool2d-4              [-1, 5, 7, 7]               0
+           Flatten-5                  [-1, 245]               0
+            Linear-6                 [-1, 1500]         369,000
+            Linear-7                 [-1, 1500]       2,251,500
+            Linear-8                 [-1, 5000]       7,505,000
+            Linear-9                 [-1, 5000]      25,005,000
+           Linear-10                   [-1, 10]          50,010
+================================================================
+Total params: 35,180,790
+Trainable params: 35,180,790
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.15
+Params size (MB): 134.20
+Estimated Total Size (MB): 134.35
+----------------------------------------------------------------"
             />
             {errors.summary && <span className="error-message">{errors.summary.message}</span>}
             <Tooltip id="summary-tooltip" place="top" effect="solid">
@@ -177,7 +209,10 @@ Non-trainable params: 0"
             <input
               id="inputSize"
               type="text"
-              {...register('inputSize', { required: "Input shape is required" })}
+              {...register('inputSize', { 
+                required: "Input shape is required",
+                validate: validateInputShape
+              })}
               placeholder="e.g., [224,224,3]"
             />
             {errors.inputSize && <span className="error-message">{errors.inputSize.message}</span>}
@@ -193,7 +228,10 @@ Non-trainable params: 0"
             <input
               id="batchSize"
               type="text"
-              {...register('batchSize', { required: "Batch size is required" })}
+              {...register('batchSize', { 
+                required: "Batch size is required",
+                validate: validateNumeric
+              })}
               placeholder="e.g., 32"
             />
             {errors.batchSize && <span className="error-message">{errors.batchSize.message}</span>}
@@ -303,6 +341,7 @@ Non-trainable params: 0"
           <CalculateButton onClick={handleSubmit(onSubmit)} />
         </div>
 
+        {warning && <div className="warning-message">{warning}</div>}
         {vramResult && <VRAMResult vram={vramResult} />}
       </form>
 

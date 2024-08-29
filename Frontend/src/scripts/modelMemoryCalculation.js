@@ -68,6 +68,9 @@ export default function calculateTotalMemory(parameterCount, batchSize, inputSha
         }
         parameterCount = out[0]
         activationsMem = out[1]
+        if (parameterCount===0 && activationsMem===0){
+            return 0
+        }
     }
     console.log(parameterCount+ " "+activationsMem)
 

@@ -76,16 +76,20 @@ const tutorialSteps = [
 ];
 
 export default function Form() {
-  const { register, handleSubmit, control, formState: { errors }, setError, clearErrors } = useForm();
+  const { register, handleSubmit, control, formState: { errors } } = useForm();
   const [vramResult, setVramResult] = useState(null);
   const [showTutorial, setShowTutorial] = useState(false);
 
-  const validateNumber = (value) => {
-    if (value.includes(',')) {
-      return 'Please use a period (.) for decimal numbers, not a comma.';
+  const validateNumeric = (value) => {
+    if (!/^\d*\.?\d+$/.test(value)) {
+      return 'Please enter a valid number';
     }
-    if (isNaN(Number(value))) {
-      return 'Please enter a valid number.';
+    return true;
+  };
+
+  const validateInputShape = (value) => {
+    if (!/^\d+$/.test(value) && !/^\[\s*\d+(?:\s*,\s*\d+)*\s*\]$/.test(value)) {
+      return 'Please enter a valid number or a list of numbers in square brackets (e.g., [224,224,3])';
     }
     return true;
   };
@@ -126,7 +130,7 @@ export default function Form() {
               type="text"
               {...register('paramCount', { 
                 required: "Parameter count is required",
-                validate: validateNumber
+                validate: validateNumeric
               })}
               placeholder="e.g., 1000000"
             />
@@ -143,7 +147,10 @@ export default function Form() {
             <input
               id="inputSize"
               type="text"
-              {...register('inputSize', { required: "Input shape is required" })}
+              {...register('inputSize', { 
+                required: "Input shape is required",
+                validate: validateInputShape
+              })}
               placeholder="e.g., [224,224,3]"
             />
             {errors.inputSize && <span className="error-message">{errors.inputSize.message}</span>}
@@ -163,7 +170,7 @@ export default function Form() {
               type="text"
               {...register('batchSize', { 
                 required: "Batch size is required",
-                validate: validateNumber
+                validate: validateNumeric
               })}
               placeholder="e.g., 32"
             />

@@ -1,113 +1,133 @@
-  .modelSummaryForm {
-    display: flex;
-    flex-direction: column;
-    background-color: #3a3a43;
-    padding: 1rem;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
-  }
+.modelSummaryForm {
+  display: flex;
+  flex-direction: column;
+  background-color: #3a3a43;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+}
 
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.formField {
+  margin-bottom: 1.25rem;
+}
+
+.formField.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.formField label {
+  display: block;
+  color: white;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.formField textarea,
+.formField input[type="text"] {
+  width: 100%;
+  padding: 0.625rem;
+  background-color: transparent;
+  border: 1px solid #9DE5FF;
+  border-radius: 8px;
+  color: #9DE5FF;
+  font-size: 0.875rem;
+}
+
+.formField textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+.checkboxField {
+  display: flex;
+  align-items: center;
+}
+
+.checkboxField label {
+  margin-right: 0.625rem;
+  display: flex;
+  align-items: center;
+}
+
+.checkboxField input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.625rem;
+  appearance: none;
+  border: 2px solid #9DE5FF;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.checkboxField input[type="checkbox"]:checked {
+  background-color: #9DE5FF;
+}
+
+.formActions {
+  margin-top: 1.25rem;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.warning-message {
+  color: #ffd700;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(255, 215, 0, 0.1);
+  border-radius: 4px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
   .formGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-  }
-
-  .formField {
-    margin-bottom: 1.25rem;
-  }
-
-  .formField.fullWidth {
-    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
   }
 
   .formField label {
-    display: block;
-    color: white;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.875rem;
   }
 
   .formField textarea,
   .formField input[type="text"] {
-    width: 100%;
-    padding: 0.625rem;
-    background-color: transparent;
-    border: 1px solid #9DE5FF;
-    border-radius: 8px;
-    color: #9DE5FF;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modelSummaryForm {
+    padding: 0.5rem;
   }
 
-  .formField textarea {
-    height: 150px;
-    resize: vertical;
+  .formField {
+    margin-bottom: 0.75rem;
   }
 
-  .checkboxField {
-    display: flex;
-    align-items: center;
-  }
-
-  .checkboxField label {
-    margin-right: 0.625rem;
-    display: flex;
-    align-items: center;
-  }
-
-  .checkboxField input[type="checkbox"] {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 0.625rem;
-    appearance: none;
-    border: 2px solid #9DE5FF;
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
-  }
-
-  .checkboxField input[type="checkbox"]:checked {
-    background-color: #9DE5FF;
+  .formField textarea,
+  .formField input[type="text"] {
+    font-size: 16px; /* Prevents zoom on input focus on iOS */
+    padding: 0.3rem;
   }
 
   .formActions {
-    margin-top: 1.25rem;
+    margin-top: 0.75rem;
   }
 
-  @media (max-width: 600px) {
-    .formGrid {
-      grid-template-columns: 1fr;
-    }
-
-    .formField label {
-      font-size: 0.875rem;
-    }
-
-    .formField textarea,
-    .formField input[type="text"] {
-      font-size: 0.8125rem;
-    }
+  .warning-message {
+    font-size: 0.8rem;
   }
-
-  @media (max-width: 480px) {
-    .modelSummaryForm {
-      padding: 0.5rem;
-    }
-
-    .formField {
-      margin-bottom: 0.75rem;
-    }
-
-    .formField textarea,
-    .formField input[type="text"] {
-      font-size: 16px; /* Prevents zoom on input focus on iOS */
-      padding: 0.3rem;
-    }
-
-    .formActions {
-      margin-top: 0.75rem;
-    }
-  }
+}
