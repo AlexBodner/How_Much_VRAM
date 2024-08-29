@@ -7,7 +7,7 @@ import ModelSummary from './Components/ModelSummary.jsx';
 import Authors from './Components/Authors.jsx';
 import './styles/App.css';
 import ReactGA from 'react-ga';
-ReactGA.initialize('G-5QRHE92V7C');
+ReactGA.initialize( process.env.Analytics);
 
 export default function Component() {
   const [modelTypeSelected, setModelTypeSelected] = useState('none');
