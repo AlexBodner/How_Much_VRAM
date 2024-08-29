@@ -1,6 +1,6 @@
 [build]
 base = "Frontend"    # Set the base directory to the subfolder
-command = "npm run build"  # The command to build your Vite project
+command = "npm run build    "  # The command to build your Vite project
 publish = "dist"  # The directory to publish, relative to the base directory
 
 [[redirects]]
