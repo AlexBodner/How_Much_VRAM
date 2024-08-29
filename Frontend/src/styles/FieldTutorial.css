@@ -6,31 +6,21 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .field-tutorial-content {
+  position: absolute;
   background-color: #3a3a43;
   padding: 1rem;
   border-radius: 10px;
-  max-width: 90%;
-  width: 300px;
+  max-width: 300px;
   color: #F0ECE2;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: absolute;
 }
 
 .field-tutorial-content h3 {
   color: #9DE5FF;
   margin-top: 0;
-  font-size: 1.2rem;
-}
-
-.field-tutorial-content p {
-  font-size: 1rem;
-  line-height: 1.4;
 }
 
 .field-tutorial-navigation {
@@ -48,7 +38,6 @@
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
-  font-size: 0.9rem;
 }
 
 .field-tutorial-button:hover {
@@ -72,51 +61,21 @@
 
 @media (max-width: 768px) {
   .field-tutorial-content {
-    width: 90%;
-    max-width: none;
-    font-size: 0.9rem;
-  }
-
-  .field-tutorial-content h3 {
-    font-size: 1.1rem;
-  }
-
-  .field-tutorial-content p {
-    font-size: 0.9rem;
-  }
-
-  .field-tutorial-button {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.8rem;
+    max-width: 250px;
   }
 }
 
 @media (max-width: 480px) {
   .field-tutorial-content {
-    padding: 0.8rem;
-    font-size: 0.8rem;
-  }
-
-  .field-tutorial-content h3 {
-    font-size: 1rem;
-  }
-
-  .field-tutorial-content p {
-    font-size: 0.8rem;
+    max-width: 200px;
+    font-size: 0.9rem;
   }
 
   .field-tutorial-button {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.7rem;
-  }
-
-  .field-tutorial-close {
-    font-size: 1.2rem;
-    top: 0.5rem;
-    right: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
   }
 }
-
 .tutorial-button {
   position: absolute;
   top: 10px;
