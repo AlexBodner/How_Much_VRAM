@@ -76,9 +76,19 @@ const tutorialSteps = [
 ];
 
 export default function Form() {
-  const { register, handleSubmit, control, formState: { errors } } = useForm();
+  const { register, handleSubmit, control, formState: { errors }, setError, clearErrors } = useForm();
   const [vramResult, setVramResult] = useState(null);
   const [showTutorial, setShowTutorial] = useState(false);
+
+  const validateNumber = (value) => {
+    if (value.includes(',')) {
+      return 'Please use a period (.) for decimal numbers, not a comma.';
+    }
+    if (isNaN(Number(value))) {
+      return 'Please enter a valid number.';
+    }
+    return true;
+  };
 
   const onSubmit = (data) => {
     if (data.paramCount && data.batchSize && data.inputSize && data.weightsPrecision && data.gradientsPrecision && data.optimizer) {
@@ -114,7 +124,10 @@ export default function Form() {
             <input
               id="paramCount"
               type="text"
-              {...register('paramCount', { required: "Parameter count is required" })}
+              {...register('paramCount', { 
+                required: "Parameter count is required",
+                validate: validateNumber
+              })}
               placeholder="e.g., 1000000"
             />
             {errors.paramCount && <span className="error-message">{errors.paramCount.message}</span>}
@@ -148,7 +161,10 @@ export default function Form() {
             <input
               id="batchSize"
               type="text"
-              {...register('batchSize', { required: "Batch size is required" })}
+              {...register('batchSize', { 
+                required: "Batch size is required",
+                validate: validateNumber
+              })}
               placeholder="e.g., 32"
             />
             {errors.batchSize && <span className="error-message">{errors.batchSize.message}</span>}

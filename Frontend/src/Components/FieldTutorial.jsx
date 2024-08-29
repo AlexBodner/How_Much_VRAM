@@ -16,8 +16,18 @@ const FieldTutorial = ({ steps, onClose }) => {
       const fieldRect = currentField.getBoundingClientRect();
       const tooltipElement = tooltipRef.current;
       if (tooltipElement) {
-        tooltipElement.style.top = `${fieldRect.top + window.scrollY}px`;
-        tooltipElement.style.left = `${fieldRect.right + 10}px`;
+        const viewportHeight = window.innerHeight;
+        const tooltipHeight = tooltipElement.offsetHeight;
+        let topPosition = fieldRect.bottom + window.scrollY + 10;
+
+        // Check if tooltip would go off-screen
+        if (topPosition + tooltipHeight > viewportHeight + window.scrollY) {
+          topPosition = fieldRect.top + window.scrollY - tooltipHeight - 10;
+        }
+
+        tooltipElement.style.top = `${topPosition}px`;
+        tooltipElement.style.left = '50%';
+        tooltipElement.style.transform = 'translateX(-50%)';
       }
     }
 
@@ -51,9 +61,9 @@ const FieldTutorial = ({ steps, onClose }) => {
     >
       <motion.div
         className="field-tutorial-content"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
         ref={tooltipRef}
       >
         <h3>{steps[currentStep].title}</h3>
@@ -67,7 +77,7 @@ const FieldTutorial = ({ steps, onClose }) => {
           </button>
         </div>
       </motion.div>
-      <button onClick={onClose} className="field-tutorial-close">×</button>
+      <button onClick={onClose} className="field-tutorial-close" aria-label="Close tutorial">×</button>
     </motion.div>
   );
 };
