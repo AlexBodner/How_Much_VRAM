@@ -6,6 +6,8 @@ import Basic from './Components/Basic.jsx';
 import ModelSummary from './Components/ModelSummary.jsx';
 import Authors from './Components/Authors.jsx';
 import './styles/App.css';
+import ReactGA from 'react-ga';
+ReactGA.initialize('G-5QRHE92V7C');
 
 export default function Component() {
   const [modelTypeSelected, setModelTypeSelected] = useState('none');
@@ -30,7 +32,9 @@ export default function Component() {
       contentRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [modelTypeSelected]);
-
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+  }, []);
   return (
     <div className='app'>
       <Header activePage={activePage} onNavClick={handleNavClick} />
