@@ -7,7 +7,7 @@ import ModelSummary from './Components/ModelSummary.jsx';
 import Authors from './Components/Authors.jsx';
 import './styles/App.css';
 
-export default function Component() {
+export default function App() {
   const [modelTypeSelected, setModelTypeSelected] = useState('none');
   const [activePage, setActivePage] = useState('home');
   const contentRef = useRef(null);
@@ -44,9 +44,9 @@ export default function Component() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <section className='mainBtns'>
+              <section className='mainBtns' aria-labelledby="main-title">
                 <div className='titleContainer'>
-                  <h2 className='title'>How much VRAM do you need?</h2>
+                  <h1 className='title'>How much VRAM do you need?</h1>
                 </div>
                 <Button
                   text="Simple calculation"
@@ -112,6 +112,9 @@ export default function Component() {
           )}
         </AnimatePresence>
       </main>
+      <footer className="site-footer">
+        <p>&copy; 2024 VRAM Calculator</p>
+      </footer>
     </div>
   );
 }
